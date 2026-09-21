@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
@@ -10,29 +11,42 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-
+    /**
+     * توليد Username فريد
+     */
     private function generateUniqueUsername(): string
     {
         do {
             $username = 'gym_' . strtoupper(
-                substr(str_shuffle('ABCDEFGHJKLMNPQRSTUVWXYZ23456789'), 0, 6)
+                substr(
+                    str_shuffle('ABCDEFGHJKLMNPQRSTUVWXYZ23456789'),
+                    0,
+                    6
+                )
             );
         } while (User::where('username', $username)->exists());
 
         return $username;
     }
+
+    /**
+     * عرض صفحة التسجيل
+     */
     public function showRegister()
     {
         return view('auth.register');
     }
 
+    /**
+     * إنشاء حساب جديد
+     */
     public function register(Request $request)
     {
+        
         $validated = $request->validate([
-            'name' => [
+            'fullname' => [
                 'required',
                 'string',
-                'max:255',
             ],
 
             'phone' => [
@@ -49,9 +63,8 @@ class AuthController extends Controller
                 'confirmed',
             ],
         ], [
-            'name.required' => 'يرجى إدخال الاسم الكامل.',
-            'name.string' => 'الاسم يجب أن يكون نصاً.',
-            'name.max' => 'الاسم طويل جداً.',
+            'fullname.required' => 'يرجى إدخال الاسم الكامل.',
+            'fullname.string' => 'الاسم يجب أن يكون نصاً.',
 
             'phone.required' => 'يرجى إدخال رقم الموبايل.',
             'phone.unique' => 'رقم الموبايل مستخدم مسبقاً.',
@@ -66,23 +79,27 @@ class AuthController extends Controller
 
         // إنشاء المستخدم
         $user = User::create([
-            'name' => $validated['name'],
+            'fullname' => $validated['fullname'],
             'username' => $username,
             'phone' => $validated['phone'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // تسجيل الدخول مباشرة
+        // تسجيل الدخول مباشرة بعد إنشاء الحساب
         Auth::login($user);
 
-        // تجديد الجلسة
+        // تجديد الجلسة للحماية
         $request->session()->regenerate();
 
-        // التوجه للداشبورد مع إرسال الـ username
+        // الانتقال إلى Dashboard
         return redirect()
             ->route('dashboard')
-            ->with('success', "تم إنشاء الحساب بنجاح. اسم المستخدم الخاص بك هو: {$username}");
+            ->with(
+                'success',
+                "تم إنشاء الحساب بنجاح. اسم المستخدم الخاص بك هو: {$username}"
+            );
     }
+
     /**
      * عرض صفحة تسجيل الدخول
      */
@@ -92,14 +109,14 @@ class AuthController extends Controller
     }
 
     /**
-     * تنفيذ تسجيل الدخول
+     * تنفيذ تسجيل الدخول باستخدام Username + Password
      */
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email'    => [
+            'username' => [
                 'required',
-                'email',
+                'string',
             ],
 
             'password' => [
@@ -107,16 +124,18 @@ class AuthController extends Controller
                 'string',
             ],
         ], [
-            'email.required'    => 'يرجى إدخال البريد الإلكتروني.',
-            'email.email'       => 'يرجى إدخال بريد إلكتروني صحيح.',
+            'username.required' => 'يرجى إدخال اسم المستخدم.',
 
             'password.required' => 'يرجى إدخال كلمة المرور.',
         ]);
 
+        // هل يريد المستخدم تذكر تسجيل الدخول؟
         $remember = $request->boolean('remember');
 
+        // التحقق من Username + Password
         if (Auth::attempt($credentials, $remember)) {
 
+            // تجديد الجلسة بعد نجاح تسجيل الدخول
             $request->session()->regenerate();
 
             return redirect()
@@ -124,8 +143,9 @@ class AuthController extends Controller
                 ->with('success', 'تم تسجيل الدخول بنجاح.');
         }
 
+        // بيانات الدخول غير صحيحة
         throw ValidationException::withMessages([
-            'email' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
+            'username' => 'اسم المستخدم أو كلمة المرور غير صحيحة.',
         ]);
     }
 
@@ -136,8 +156,10 @@ class AuthController extends Controller
     {
         Auth::logout();
 
+        // إلغاء الجلسة الحالية
         $request->session()->invalidate();
 
+        // إنشاء CSRF Token جديد
         $request->session()->regenerateToken();
 
         return redirect()
