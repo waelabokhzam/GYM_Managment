@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 
 <head>
@@ -156,15 +157,15 @@
             @csrf
 
 
-            {{-- Email --}}
+            {{-- Username --}}
 
             <div>
 
                 <label
-                    for="email"
+                    for="username"
                     class="mb-2 block text-sm font-bold"
                 >
-                    البريد الإلكتروني
+                    اسم المستخدم
                 </label>
 
                 <div class="relative">
@@ -172,7 +173,7 @@
                     <i
                         class="
                             fa-solid
-                            fa-envelope
+                            fa-user
                             absolute
                             right-4
                             top-1/2
@@ -182,12 +183,12 @@
                     ></i>
 
                     <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value="{{ old('email') }}"
-                        placeholder="example@email.com"
-                        autocomplete="email"
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="{{ old('username') }}"
+                        placeholder="أدخل اسم المستخدم"
+                        autocomplete="username"
                         required
                         autofocus
                         class="
@@ -212,13 +213,7 @@
 
                 </div>
 
-                @error('email')
-
-                    <p class="mt-1 text-xs text-red-400">
-                        {{ $message }}
-                    </p>
-
-                @enderror
+                
 
             </div>
 
@@ -350,15 +345,19 @@
                     justify-center
                     gap-2
                     rounded-xl
-                    bg-[#D46417]
+                    bg-[#ff7a22]
                     text-sm
                     font-extrabold
                     text-white
                     shadow-lg
                     shadow-[#D46417]/20
                     transition
+                    duration-200
                     hover:-translate-y-0.5
                     hover:bg-[#D46417]/90
+                    hover:shadow-xl
+                    hover:shadow-[#D46417]/25
+                    active:translate-y-0
                 "
             >
 
@@ -371,7 +370,42 @@
         </form>
 
 
-        <p class="mt-7 text-center text-[10px] text-[var(--color-text-muted)]">
+        {{-- Register --}}
+
+        <div class="mt-7 border-t border-[var(--color-border)] pt-6 text-center">
+
+            <p class="text-sm text-[var(--color-text-muted)]">
+                ليس لديك حساب؟
+            </p>
+
+            <a
+                href="{{ route('register') }}"
+                class="
+                    mt-2
+                    inline-flex
+                    items-center
+                    gap-2
+                    text-sm
+                    font-extrabold
+                    text-[#D46417]
+                    transition
+                    duration-200
+                    hover:brightness-125
+                "
+            >
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                إنشاء حساب جديد
+
+            </a>
+
+        </div>
+
+
+        {{-- Footer --}}
+
+        <p class="mt-6 text-center text-[10px] text-[var(--color-text-muted)]">
             نظام إدارة النادي الرياضي
         </p>
 
@@ -406,4 +440,5 @@
 </script>
 
 </body>
+
 </html>

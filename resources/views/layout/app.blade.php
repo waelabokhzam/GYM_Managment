@@ -540,13 +540,13 @@
                         text-white
                     "
                 >
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    {{ mb_substr(auth()->user()->fullname, 0, 1) }}
                 </div>
 
                 <div class="min-w-0 flex-1">
 
                     <div class="truncate text-sm font-bold">
-                        {{ auth()->user()->name }}
+                        {{ auth()->user()->fullname }}
                     </div>
 
                     <div class="text-[11px] text-[var(--color-text-muted)]">
@@ -671,10 +671,37 @@
             </div>
 
 
-            <div class="flex items-center gap-2">
+            
+            <div class="flex items-center gap-3">
+
+                {{-- معلومات المستخدم --}}
+                @auth
+                    <div class="hidden sm:flex items-center gap-2">
+
+                        {{-- Avatar --}}
+                        <div
+                            class="flex h-9 w-9 items-center justify-center
+                                rounded-full bg-[#D46417]
+                                text-sm font-bold text-white"
+                        >
+                            {{ mb_substr(auth()->user()->fullname, 0, 1) }}
+                        </div>
+
+                        {{-- Username --}}
+                        <div class="text-right">
+                            <div class="text-[10px] text-[var(--color-text-muted)]">
+                                user_name
+                            </div>
+
+                            <div class="text-sm font-bold text-[var(--color-text)]">
+                                {{  auth()->user()->username }}
+                            </div>
+                        </div>
+
+                    </div>
+                @endauth
 
                 {{-- Theme Button --}}
-
                 <button
                     id="theme-toggle"
                     type="button"
@@ -694,15 +721,15 @@
                     "
                     title="تبديل المظهر"
                 >
-
                     <i
                         id="theme-icon"
                         class="fa-solid fa-sun"
                     ></i>
-
                 </button>
 
             </div>
+
+
 
         </header>
 
