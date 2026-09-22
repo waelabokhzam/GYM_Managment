@@ -13,22 +13,15 @@ class Player extends Model
     protected $fillable = [
         'user_id',
         'unique_number',
+        'gender',
         'height',
         'weight',
         'health_status',
         'occupation',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'height' => 'decimal:2',
-            'weight' => 'decimal:2',
-        ];
-    }
-
     /**
-     * الحساب المرتبط باللاعب
+     * اللاعب تابع لحساب User
      */
     public function user(): BelongsTo
     {

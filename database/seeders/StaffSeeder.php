@@ -26,14 +26,15 @@ class StaffSeeder extends Seeder
             ],
             [
                 'fullname' => 'مدير النظام',
+                'phone' => '0000000000',
                 'password' => Hash::make('admin123'),
             ]
         );
 
-        // تعيين Spatie Role
+        // Spatie Role
         $admin->syncRoles(['admin']);
 
-        // إنشاء سجل الموظف
+        // Staff
         Staff::updateOrCreate(
             [
                 'user_id' => $admin->id,
@@ -58,6 +59,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'fullname' => 'موظف الاستقبال',
+                'phone' => '0000000001',
                 'password' => Hash::make('reception123'),
             ]
         );
@@ -71,13 +73,21 @@ class StaffSeeder extends Seeder
                 'user_id' => $reception->id,
             ],
             [
-                'role' => 'receptionist',
+                'role' => 'reception',
                 'salary_type' => 'fixed',
                 'base_salary' => 0,
             ]
         );
 
 
-        $this->command->info('Admin and Reception accounts created successfully.');
+        /*
+        |--------------------------------------------------------------------------
+        | Success Message
+        |--------------------------------------------------------------------------
+        */
+
+        $this->command->info(
+            'Admin and Reception accounts created successfully.'
+        );
     }
 }

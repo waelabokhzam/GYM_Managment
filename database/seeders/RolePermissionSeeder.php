@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -10,7 +11,12 @@ class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // تنظيف الكاش الخاص بالصلاحيات
+        /*
+        |--------------------------------------------------------------------------
+        | Clear Permission Cache
+        |--------------------------------------------------------------------------
+        */
+
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         /*
@@ -21,11 +27,17 @@ class RolePermissionSeeder extends Seeder
 
         $permissions = [
 
-            // Members
-            'members.view',
-            'members.create',
-            'members.edit',
-            'members.delete',
+            // Players
+            'players.view',
+            'players.create',
+            'players.edit',
+            'players.delete',
+
+            // Staff
+            'staff.view',
+            'staff.create',
+            'staff.edit',
+            'staff.delete',
 
             // Subscriptions
             'subscriptions.view',
@@ -33,11 +45,11 @@ class RolePermissionSeeder extends Seeder
             'subscriptions.edit',
             'subscriptions.delete',
 
-            // Trainers
-            'trainers.view',
-            'trainers.create',
-            'trainers.edit',
-            'trainers.delete',
+            //الفترات 
+            'timeslots.create',
+            'timeslots.edit',
+            'timeslots.delete',
+            'timeslots.view',
 
             // Training Periods
             'training_periods.view',
@@ -76,9 +88,15 @@ class RolePermissionSeeder extends Seeder
             'permissions.manage',
         ];
 
+        /*
+        |--------------------------------------------------------------------------
+        | Create Permissions
+        |--------------------------------------------------------------------------
+        */
+
         foreach ($permissions as $permission) {
             Permission::firstOrCreate([
-                'name'       => $permission,
+                'name' => $permission,
                 'guard_name' => 'web',
             ]);
         }
@@ -90,22 +108,22 @@ class RolePermissionSeeder extends Seeder
         */
 
         $admin = Role::firstOrCreate([
-            'name'       => 'admin',
+            'name' => 'admin',
             'guard_name' => 'web',
         ]);
 
         $reception = Role::firstOrCreate([
-            'name'       => 'reception',
+            'name' => 'reception',
             'guard_name' => 'web',
         ]);
 
         $trainer = Role::firstOrCreate([
-            'name'       => 'trainer',
+            'name' => 'trainer',
             'guard_name' => 'web',
         ]);
 
         $player = Role::firstOrCreate([
-            'name'       => 'player',
+            'name' => 'player',
             'guard_name' => 'web',
         ]);
 
@@ -114,12 +132,12 @@ class RolePermissionSeeder extends Seeder
         | Admin
         |--------------------------------------------------------------------------
         |
-        | Admin يمتلك جميع الصلاحيات الموجودة في النظام.
+        | Admin لديه جميع الصلاحيات في النظام.
         |
         */
 
         $admin->syncPermissions(
-            Permission::all()
+            Permission::where('guard_name', 'web')->get()
         );
 
         /*
@@ -129,25 +147,36 @@ class RolePermissionSeeder extends Seeder
         */
 
         $reception->syncPermissions([
-            'members.view',
-            'members.create',
-            'members.edit',
 
+            // Players
+            'players.view',
+            'players.create',
+            'players.edit',
+
+            // Staff
+            'staff.view',
+
+            // Subscriptions
             'subscriptions.view',
             'subscriptions.create',
             'subscriptions.edit',
 
-            'trainers.view',
-
+            // Training Periods
             'training_periods.view',
 
+            // Sports
             'sports.view',
 
+            // Payments
             'payments.view',
             'payments.create',
 
+            // Attendance
             'attendance.view',
             'attendance.create',
+
+            // Reports
+            'reports.view',
         ]);
 
         /*
@@ -157,20 +186,28 @@ class RolePermissionSeeder extends Seeder
         */
 
         $trainer->syncPermissions([
-            'members.view',
 
+            // Players
+            'players.view',
+
+            // Staff
+            'staff.view',
+
+            // Subscriptions
             'subscriptions.view',
 
-            'trainers.view',
-
+            // Training Periods
             'training_periods.view',
 
+            // Sports
             'sports.view',
 
+            // Attendance
             'attendance.view',
             'attendance.create',
             'attendance.edit',
 
+            // Reports
             'reports.view',
         ]);
 
@@ -181,25 +218,39 @@ class RolePermissionSeeder extends Seeder
         */
 
         $player->syncPermissions([
-            'members.view',
 
+            // Player
+            'players.view',
+
+            // Subscriptions
             'subscriptions.view',
 
+            // Training Periods
             'training_periods.view',
 
+            // Sports
             'sports.view',
 
+            // Attendance
             'attendance.view',
         ]);
 
         /*
         |--------------------------------------------------------------------------
-        | Clear permission cache
+        | Clear Permission Cache
         |--------------------------------------------------------------------------
         */
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $this->command->info('Roles and permissions created successfully.');
+        /*
+        |--------------------------------------------------------------------------
+        | Success Message
+        |--------------------------------------------------------------------------
+        */
+
+        $this->command->info(
+            'Roles and permissions created successfully.'
+        );
     }
 }

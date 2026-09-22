@@ -228,10 +228,10 @@
             </div>
 
 
-            @can('members.view')
+            @can('players.view')
 
                 <a
-                    href="#"
+                    href="{{route('players.index')}}"
                     class="
                         mb-1
                         flex
@@ -248,7 +248,7 @@
                     "
                 >
                     <i class="fa-solid fa-users w-5 text-center"></i>
-                    <span>الأعضاء</span>
+                    <span>اللاعبين</span>
                 </a>
 
             @endcan
