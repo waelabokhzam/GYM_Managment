@@ -4,20 +4,20 @@ use App\Http\Controllers\Web\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+    return view('auth.login');
+});
 
 Route::middleware('guest')->group(function () {
 
-    Route::get('/register', [
-        AuthController::class,
-        'showRegister'
-    ])->name('register');
+    // Route::get('/register', [
+    //     AuthController::class,
+    //     'showRegister'
+    // ])->name('register');
 
-    Route::post('/register', [
-        AuthController::class,
-        'register'
-    ])->name('register');
+    // Route::post('/register', [
+    //     AuthController::class,
+    //     'register'
+    // ])->name('register');
 
     Route::get('/login', [
         AuthController::class,

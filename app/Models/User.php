@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['fullname', 'username', 'password','phone'])]
 #[Hidden(['password', 'remember_token'])]
@@ -29,5 +30,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function player(): HasOne
+    {
+        return $this->hasOne(Player::class);
+    }
+    public function staff(): HasOne
+    {
+        return $this->hasOne(Staff::class);
     }
 }

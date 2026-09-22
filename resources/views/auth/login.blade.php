@@ -372,7 +372,7 @@
 
         {{-- Register --}}
 
-        <div class="mt-7 border-t border-[var(--color-border)] pt-6 text-center">
+        {{-- <div class="mt-7 border-t border-[var(--color-border)] pt-6 text-center">
 
             <p class="text-sm text-[var(--color-text-muted)]">
                 ليس لديك حساب؟
@@ -400,7 +400,7 @@
 
             </a>
 
-        </div>
+        </div> --}}
 
 
         {{-- Footer --}}
