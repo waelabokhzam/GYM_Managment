@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\GameController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+    return view('auth.login');
+});
 
 Route::middleware('guest')->group(function () {
 
@@ -52,6 +53,12 @@ Route::middleware('auth')->group(function () {
 
     })->name('dashboard');
 
+    // Games
+
+    Route::resource('games', GameController::class);
+
+
+    // Logout
 
     Route::post('/logout', [
         AuthController::class,
