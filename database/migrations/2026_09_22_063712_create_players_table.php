@@ -34,6 +34,10 @@ return new class extends Migration
 
             $table->string('occupation')
                 ->nullable();
+            $table->enum('gender', [
+    'male',
+    'female',
+]);
 
             $table->timestamps();
         });

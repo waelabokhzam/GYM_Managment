@@ -67,4 +67,5 @@ Route::middleware('auth')->group(function () {
         'logout',
     ])->name('logout');
 
+    Route::resource('players', PlayerController::class);
 });

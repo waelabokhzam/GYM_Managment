@@ -188,10 +188,11 @@
                     النادي
                 </div>
 
+            @can('players.view')
 
-                @can('members.view')
-                    <a href="#"
-                        class="
+                <a
+                    href="{{route('players.index')}}"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -204,11 +205,13 @@
                         text-[var(--color-text-muted)]
                         hover:bg-[var(--color-surface-hover)]
                         hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-users w-5 text-center"></i>
-                        <span>الأعضاء</span>
-                    </a>
-                @endcan
+                    "
+                >
+                    <i class="fa-solid fa-users w-5 text-center"></i>
+                    <span>اللاعبين</span>
+                </a>
+
+            @endcan
 
 
                 @can('subscriptions.view')
