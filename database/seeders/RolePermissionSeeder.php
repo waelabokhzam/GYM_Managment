@@ -57,7 +57,7 @@ class RolePermissionSeeder extends Seeder
             'subscriptions.edit',
             'subscriptions.delete',
 
-            //الفترات 
+            //الفترات
             'timeslots.create',
             'timeslots.edit',
             'timeslots.delete',
@@ -211,10 +211,10 @@ class RolePermissionSeeder extends Seeder
 
             // Staff
             'staff.view',
-            
+
             // Trainers
             'trainers.view',
-            
+
             // Subscriptions
             'subscriptions.view',
 
@@ -276,3 +276,4 @@ class RolePermissionSeeder extends Seeder
         );
     }
 }
+
