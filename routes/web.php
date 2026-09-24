@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
-use App\Http\Controllers\Web\PlayerController;
+use App\Http\Controllers\Web\GameController;
+use App\Http\Controllers\Web\TimeSlotController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,17 +23,15 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/login', [
         AuthController::class,
-        'showLogin'
+        'showLogin',
     ])->name('login');
-
 
     Route::post('/login', [
         AuthController::class,
-        'login'
+        'login',
     ])->name('login.store');
 
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -53,10 +52,19 @@ Route::middleware('auth')->group(function () {
 
     })->name('dashboard');
 
+    // Games
+
+    Route::resource('games', GameController::class);
+
+    // TimeSlots
+
+    Route::resource('timeslots', TimeSlotController::class);
+
+    // Logout
 
     Route::post('/logout', [
         AuthController::class,
-        'logout'
+        'logout',
     ])->name('logout');
 
     Route::resource('players', PlayerController::class);

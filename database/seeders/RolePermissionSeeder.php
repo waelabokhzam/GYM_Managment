@@ -148,15 +148,11 @@ class RolePermissionSeeder extends Seeder
 
         $reception->syncPermissions([
 
-            // Players
-            'players.view',
-            'players.create',
-            'players.edit',
+            'timeslots.view',
+            'timeslots.create',
+            'timeslots.edit',
+            'timeslots.delete',
 
-            // Staff
-            'staff.view',
-
-            // Subscriptions
             'subscriptions.view',
             'subscriptions.create',
             'subscriptions.edit',
@@ -196,7 +192,8 @@ class RolePermissionSeeder extends Seeder
             // Subscriptions
             'subscriptions.view',
 
-            // Training Periods
+            'timeslots.view',
+
             'training_periods.view',
 
             // Sports
@@ -225,7 +222,8 @@ class RolePermissionSeeder extends Seeder
             // Subscriptions
             'subscriptions.view',
 
-            // Training Periods
+            'timeslots.view',
+
             'training_periods.view',
 
             // Sports
