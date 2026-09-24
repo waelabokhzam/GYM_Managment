@@ -1,25 +1,46 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html
+    lang="ar"
+    dir="rtl"
+>
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
         @yield('title', 'نظام إدارة النادي الرياضي')
     </title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.js'
+    ])
 
     {{-- تطبيق الثيم قبل ظهور الصفحة --}}
     <script>
@@ -114,7 +135,6 @@
 </head>
 
 <body class="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
-<<<<<<< HEAD
 @if (session('success'))
 
     <div
@@ -193,35 +213,29 @@
         >
             <i class="fa-solid fa-xmark text-xs"></i>
         </button>
-=======
-    @if (session('success'))
-        <div
-            class="fixed top-5 left-1/2 z-[9999] -translate-x-1/2
-               rounded-xl border border-orange/30
-               bg-black px-6 py-3
-               text-sm font-semibold text-white
-               shadow-2xl">
 
-            {{ session('success') }}
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
+    </div>
 
-        </div>
-    @endif
-    <div class="min-h-screen">
+@endif
+<div class="min-h-screen">
 
-        {{-- =====================================================
+    {{-- =====================================================
          SIDEBAR OVERLAY
     ====================================================== --}}
 
-        <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden bg-black/60 backdrop-blur-sm lg:hidden"></div>
+    <div
+        id="sidebar-overlay"
+        class="fixed inset-0 z-40 hidden bg-black/60 backdrop-blur-sm lg:hidden"
+    ></div>
 
 
-        {{-- =====================================================
+    {{-- =====================================================
          SIDEBAR
     ====================================================== --}}
 
-        <aside id="sidebar"
-            class="
+    <aside
+        id="sidebar"
+        class="
             fixed
             inset-y-0
             right-0
@@ -236,12 +250,13 @@
             transition-transform
             duration-300
             lg:translate-x-0
-        ">
+        "
+    >
 
-            {{-- Logo --}}
+        {{-- Logo --}}
 
-            <div
-                class="
+        <div
+            class="
                 flex
                 h-20
                 shrink-0
@@ -250,12 +265,16 @@
                 border-b
                 border-[var(--color-border)]
                 px-5
-            ">
+            "
+        >
 
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+            <a
+                href="{{ route('dashboard') }}"
+                class="flex items-center gap-3"
+            >
 
-                    <div
-                        class="
+                <div
+                    class="
                         flex
                         h-11
                         w-11
@@ -266,53 +285,52 @@
                         text-white
                         shadow-lg
                         shadow-[#D46417]/20
-                    ">
-                        <i class="fa-solid fa-dumbbell"></i>
+                    "
+                >
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+
+                <div class="text-right">
+
+                    <div class="text-lg font-extrabold">
+                        GYM
+                        <span class="text-[#D46417]">
+                            MANAGEMENT
+                        </span>
                     </div>
 
-                    <div class="text-right">
-
-                        <div class="text-lg font-extrabold">
-                            GYM
-                            <span class="text-[#D46417]">
-                                MANAGEMENT
-                            </span>
-                        </div>
-
-                        <div class="text-[10px] text-[var(--color-text-muted)]">
-                            نظام إدارة النادي
-                        </div>
-
+                    <div class="text-[10px] text-[var(--color-text-muted)]">
+                        نظام إدارة النادي
                     </div>
 
-                </a>
+                </div>
 
-            </div>
+            </a>
+
+        </div>
 
 
-            {{-- Navigation --}}
+        {{-- Navigation --}}
 
-<<<<<<< HEAD
         <nav class="sidebar-scroll flex-1 overflow-y-auto p-4">
-=======
-            <nav class="flex-1 overflow-y-auto p-4">
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
-                {{-- الرئيسية --}}
+            {{-- الرئيسية --}}
 
-                <div
-                    class="
+            <div
+                class="
                     mb-2
                     px-3
                     text-[10px]
                     font-bold
                     text-[var(--color-text-muted)]
-                ">
-                    الرئيسية
-                </div>
+                "
+            >
+                الرئيسية
+            </div>
 
-                <a href="{{ route('dashboard') }}"
-                    class="
+            <a
+                href="{{ route('dashboard') }}"
+                class="
                     mb-1
                     flex
                     items-center
@@ -324,31 +342,35 @@
                     transition
                     {{ request()->routeIs('dashboard')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
-                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
-                ">
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
+                "
+            >
 
-                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                <i class="fa-solid fa-chart-line w-5 text-center"></i>
 
-                    <span>
-                        لوحة التحكم
-                    </span>
+                <span>
+                    لوحة التحكم
+                </span>
 
-                </a>
+            </a>
 
 
-                {{-- النادي --}}
+            {{-- النادي --}}
 
-                <div
-                    class="
+            <div
+                class="
                     mb-2
                     mt-6
                     px-3
                     text-[10px]
                     font-bold
                     text-[var(--color-text-muted)]
-                ">
-                    النادي
-                </div>
+                "
+            >
+                النادي
+            </div>
+
 
             @can('players.view')
 
@@ -363,17 +385,12 @@
                         px-4
                         py-3
                         text-sm
+                        text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
                     {{ request()->routeIs('players.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
                     }}
-=======
-                        text-[var(--color-text-muted)]
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
                     "
                 >
                     <i class="fa-solid fa-users w-5 text-center"></i>
@@ -383,9 +400,11 @@
             @endcan
 
 
-                @can('subscriptions.view')
-                    <a href="#"
-                        class="
+            @can('subscriptions.view')
+
+                <a
+                    href="#"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -396,7 +415,6 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
                         {{ request()->routeIs('sub.*')
                             ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                             : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
@@ -415,20 +433,6 @@
                 <a
                     href="{{route('trainers.index')}}"
                     class="
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-id-card w-5 text-center"></i>
-                        <span>الاشتراكات</span>
-                    </a>
-                @endcan
-
-
-                @can('trainers.view')
-                    <a href="#"
-                        class="
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
                         mb-1
                         flex
                         items-center
@@ -439,7 +443,6 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
                         {{ request()->routeIs('trainers.*')
                             ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                             : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
@@ -451,20 +454,13 @@
                 </a>
 
             @endcan
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-person-running w-5 text-center"></i>
-                        <span>المدربون</span>
-                    </a>
-                @endcan
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
 
-                @can('training_periods.view')
-                    <a href="{{ route("timeslots.index") }}"
-                        class="
+            @can('training_periods.view')
+
+                <a
+                    href="{{route('timeslots.index')}}"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -475,8 +471,7 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
-                    {{ request()->routeIs('slots.*')
+                    {{ request()->routeIs('timeslots.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
                     }}
@@ -487,42 +482,13 @@
                 </a>
 
             @endcan
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-calendar-days w-5 text-center"></i>
-                        <span>الفترات التدريبية</span>
-                    </a>
-                @endcan
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
 
-                @can('sports.view')
-                    <a href="{{ route('games.index') }}"
-                        class="
-                        mb-1
-                        flex
-                        items-center
-                        gap-3
-                        rounded-xl
-                        px-4
-                        py-3
-                        text-sm
-                        {{ request()->routeIs('games.*')
-                            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
-                            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
-                        transition
-                    ">
-                        <i class="fa-solid fa-dumbbell w-5 text-center"></i>
-                        <span>الرياضات</span>
-                    </a>
-                @endcan
+            @can('sports.view')
 
-
-                @can('attendance.view')
-                    <a href="#"
-                        class="
+                <a
+                    href="{{route('games.index')}}"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -533,8 +499,7 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
-                    {{ request()->routeIs('sports.*')
+                    {{ request()->routeIs('games.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
                     }}
@@ -545,20 +510,13 @@
                 </a>
 
             @endcan
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-fingerprint w-5 text-center"></i>
-                        <span>الحضور</span>
-                    </a>
-                @endcan
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
 
-                @can('payments.view')
-                    <a href="#"
-                        class="
+            @can('attendance.view')
+
+                <a
+                    href="#"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -569,7 +527,6 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
                     {{ request()->routeIs('attend.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
@@ -581,20 +538,10 @@
                 </a>
 
             @endcan
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-money-bill-wave w-5 text-center"></i>
-                        <span>الدفعات</span>
-                    </a>
-                @endcan
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
 
-                {{-- التقارير --}}
+            @can('payments.view')
 
-<<<<<<< HEAD
                 <a
                     href="#"
                     class="
@@ -627,23 +574,20 @@
 
                 <div
                     class="
-=======
-                @can('reports.view')
-                    <div
-                        class="
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
                         mb-2
                         mt-6
                         px-3
                         text-[10px]
                         font-bold
                         text-[var(--color-text-muted)]
-                    ">
-                        التقارير
-                    </div>
+                    "
+                >
+                    التقارير
+                </div>
 
-                    <a href="#"
-                        class="
+                <a
+                    href="#"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -654,7 +598,6 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
                     {{ request()->routeIs('reports.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
@@ -666,34 +609,28 @@
                 </a>
 
             @endcan
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                        <span>التقارير</span>
-                    </a>
-                @endcan
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
 
-                {{-- الإدارة --}}
+            {{-- الإدارة --}}
 
-                @can('users.view')
-                    <div
-                        class="
+            @can('users.view')
+
+                <div
+                    class="
                         mb-2
                         mt-6
                         px-3
                         text-[10px]
                         font-bold
                         text-[var(--color-text-muted)]
-                    ">
-                        الإدارة
-                    </div>
+                    "
+                >
+                    الإدارة
+                </div>
 
-                    <a href="#"
-                        class="
+                <a
+                    href="#"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -715,18 +652,13 @@
                 </a>
 
             @endcan
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-user-shield w-5 text-center"></i>
-                        <span>المستخدمون</span>
-                    </a>
-                @endcan
 
 
-                @can('roles.manage')
-                    <a href="#"
-                        class="
+            @can('roles.manage')
+
+                <a
+                    href="#"
+                    class="
                         mb-1
                         flex
                         items-center
@@ -737,7 +669,6 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-<<<<<<< HEAD
                     {{ request()->routeIs('roles.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
@@ -747,28 +678,20 @@
                     <i class="fa-solid fa-user-lock w-5 text-center"></i>
                     <span>الأدوار والصلاحيات</span>
                 </a>
-=======
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
-                    ">
-                        <i class="fa-solid fa-user-lock w-5 text-center"></i>
-                        <span>الأدوار والصلاحيات</span>
-                    </a>
-                @endcan
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
-            </nav>
+            @endcan
+
+        </nav>
 
 
-            {{-- User --}}
+        {{-- User --}}
 
-            @auth
-                <div class="border-t border-[var(--color-border)] p-4">
+        <div class="border-t border-[var(--color-border)] p-4">
 
-                    <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
 
-                        <div
-                            class="
+                <div
+                    class="
                         flex
                         h-10
                         w-10
@@ -779,33 +702,39 @@
                         bg-[#D46417]
                         font-bold
                         text-white
-                    ">
-                            {{ mb_substr(auth()->user()->fullname, 0, 1) }}
-                        </div>
+                    "
+                >
+                    {{ mb_substr(auth()->user()->fullname, 0, 1) }}
+                </div>
 
-                        <div class="min-w-0 flex-1">
+                <div class="min-w-0 flex-1">
 
-                            <div class="truncate text-sm font-bold">
-                                {{ auth()->user()->fullname }}
-                            </div>
-
-                            <div class="text-[11px] text-[var(--color-text-muted)]">
-                                {{ auth()->user()->getRoleNames()->first() ?? 'بدون دور' }}
-                            </div>
-
-                        </div>
-
+                    <div class="truncate text-sm font-bold">
+                        {{ auth()->user()->fullname }}
                     </div>
 
+                    <div class="text-[11px] text-[var(--color-text-muted)]">
+                        {{ auth()->user()->getRoleNames()->first() ?? 'بدون دور' }}
+                    </div>
 
-                    {{-- Logout --}}
+                </div>
 
-                    <form method="POST" action="{{ route('logout') }}" class="mt-3">
+            </div>
 
-                        @csrf
 
-                        <button type="submit"
-                            class="
+            {{-- Logout --}}
+
+            <form
+                method="POST"
+                action="{{ route('logout') }}"
+                class="mt-3"
+            >
+
+                @csrf
+
+                <button
+                    type="submit"
+                    class="
                         flex
                         w-full
                         items-center
@@ -818,34 +747,34 @@
                         transition
                         hover:bg-red-500/10
                         hover:text-red-400
-                    ">
+                    "
+                >
 
-                            <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                    <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
 
-                            <span>
-                                تسجيل الخروج
-                            </span>
+                    <span>
+                        تسجيل الخروج
+                    </span>
 
-                        </button>
+                </button>
 
-                    </form>
+            </form>
 
-                </div>
-            @endauth
+        </div>
 
-        </aside>
+    </aside>
 
 
-        {{-- =====================================================
+    {{-- =====================================================
          MAIN
     ====================================================== --}}
 
-        <main class="min-h-screen lg:mr-72">
+    <main class="min-h-screen lg:mr-72">
 
-            {{-- TOPBAR --}}
+        {{-- TOPBAR --}}
 
-            <header
-                class="
+        <header
+            class="
                 sticky
                 top-0
                 z-30
@@ -859,14 +788,17 @@
                 px-4
                 backdrop-blur
                 sm:px-6
-            ">
+            "
+        >
 
-                <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
 
-                    {{-- Mobile Sidebar Button --}}
+                {{-- Mobile Sidebar Button --}}
 
-                    <button id="sidebar-toggle" type="button"
-                        class="
+                <button
+                    id="sidebar-toggle"
+                    type="button"
+                    class="
                         flex
                         h-10
                         w-10
@@ -880,65 +812,64 @@
                         hover:border-[#D46417]
                         hover:text-[#D46417]
                         lg:hidden
-                    ">
+                    "
+                >
 
-                        <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-bars"></i>
 
-                    </button>
+                </button>
 
 
-                    <div>
+                <div>
 
-                        <h1 class="text-lg font-extrabold sm:text-xl">
-                            @yield('page-title', 'لوحة التحكم')
-                        </h1>
+                    <h1 class="text-lg font-extrabold sm:text-xl">
+                        @yield('page-title', 'لوحة التحكم')
+                    </h1>
 
-                        <p class="hidden text-xs text-[var(--color-text-muted)] sm:block">
-                            نظام إدارة النادي الرياضي
-                        </p>
-
-                    </div>
+                    <p class="hidden text-xs text-[var(--color-text-muted)] sm:block">
+                        نظام إدارة النادي الرياضي
+                    </p>
 
                 </div>
 
+            </div>
 
 
-<<<<<<< HEAD
 
             <div class="flex items-center gap-3">
-=======
-                <div class="flex items-center gap-3">
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 
-                    {{-- معلومات المستخدم --}}
-                    @auth
-                        <div class="hidden sm:flex items-center gap-2">
+                {{-- معلومات المستخدم --}}
+                @auth
+                    <div class="hidden sm:flex items-center gap-2">
 
-                            {{-- Avatar --}}
-                            <div
-                                class="flex h-9 w-9 items-center justify-center
+                        {{-- Avatar --}}
+                        <div
+                            class="flex h-9 w-9 items-center justify-center
                                 rounded-full bg-[#D46417]
-                                text-sm font-bold text-white">
-                                {{ mb_substr(auth()->user()->fullname, 0, 1) }}
-                            </div>
-
-                            {{-- Username --}}
-                            <div class="text-right">
-                                <div class="text-[10px] text-[var(--color-text-muted)]">
-                                    user_name
-                                </div>
-
-                                <div class="text-sm font-bold text-[var(--color-text)]">
-                                    {{ auth()->user()->username }}
-                                </div>
-                            </div>
-
+                                text-sm font-bold text-white"
+                        >
+                            {{ mb_substr(auth()->user()->fullname, 0, 1) }}
                         </div>
-                    @endauth
 
-                    {{-- Theme Button --}}
-                    <button id="theme-toggle" type="button"
-                        class="
+                        {{-- Username --}}
+                        <div class="text-right">
+                            <div class="text-[10px] text-[var(--color-text-muted)]">
+                                user_name
+                            </div>
+
+                            <div class="text-sm font-bold text-[var(--color-text)]">
+                                {{  auth()->user()->username }}
+                            </div>
+                        </div>
+
+                    </div>
+                @endauth
+
+                {{-- Theme Button --}}
+                <button
+                    id="theme-toggle"
+                    type="button"
+                    class="
                         flex
                         h-10
                         w-10
@@ -952,112 +883,115 @@
                         hover:border-[#D46417]
                         hover:text-[#D46417]
                     "
-                        title="تبديل المظهر">
-                        <i id="theme-icon" class="fa-solid fa-sun"></i>
-                    </button>
+                    title="تبديل المظهر"
+                >
+                    <i
+                        id="theme-icon"
+                        class="fa-solid fa-sun"
+                    ></i>
+                </button>
 
-                </div>
-
-
-
-            </header>
-
-
-            {{-- CONTENT --}}
-
-            <section class="p-4 sm:p-6">
-
-                @yield('content')
-
-            </section>
-
-        </main>
-
-    </div>
+            </div>
 
 
-    <script>
-        /*
-        |--------------------------------------------------------------------------
-        | Theme
-        |--------------------------------------------------------------------------
-        */
 
-        const themeToggle =
-            document.getElementById('theme-toggle');
-
-        const themeIcon =
-            document.getElementById('theme-icon');
+        </header>
 
 
-        function updateThemeIcon() {
+        {{-- CONTENT --}}
 
-            const isLight =
-                document.documentElement.classList.contains('light');
+        <section class="p-4 sm:p-6">
 
-            themeIcon.className =
-                isLight ?
-                'fa-solid fa-moon' :
-                'fa-solid fa-sun';
-        }
+            @yield('content')
 
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /*
+    |--------------------------------------------------------------------------
+    | Theme
+    |--------------------------------------------------------------------------
+    */
+
+    const themeToggle =
+        document.getElementById('theme-toggle');
+
+    const themeIcon =
+        document.getElementById('theme-icon');
+
+
+    function updateThemeIcon() {
+
+        const isLight =
+            document.documentElement.classList.contains('light');
+
+        themeIcon.className =
+            isLight
+                ? 'fa-solid fa-moon'
+                : 'fa-solid fa-sun';
+    }
+
+
+    updateThemeIcon();
+
+
+    themeToggle?.addEventListener('click', () => {
+
+        const html =
+            document.documentElement;
+
+        const isLight =
+            html.classList.toggle('light');
+
+        localStorage.setItem(
+            'gym-theme',
+            isLight ? 'light' : 'dark'
+        );
 
         updateThemeIcon();
 
-
-        themeToggle?.addEventListener('click', () => {
-
-            const html =
-                document.documentElement;
-
-            const isLight =
-                html.classList.toggle('light');
-
-            localStorage.setItem(
-                'gym-theme',
-                isLight ? 'light' : 'dark'
-            );
-
-            updateThemeIcon();
-
-        });
+    });
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Mobile Sidebar
-        |--------------------------------------------------------------------------
-        */
+    /*
+    |--------------------------------------------------------------------------
+    | Mobile Sidebar
+    |--------------------------------------------------------------------------
+    */
 
-        const sidebar =
-            document.getElementById('sidebar');
+    const sidebar =
+        document.getElementById('sidebar');
 
-        const sidebarToggle =
-            document.getElementById('sidebar-toggle');
+    const sidebarToggle =
+        document.getElementById('sidebar-toggle');
 
-        const sidebarOverlay =
-            document.getElementById('sidebar-overlay');
-
-
-        sidebarToggle?.addEventListener('click', () => {
-
-            sidebar.classList.remove('translate-x-full');
-
-            sidebarOverlay.classList.remove('hidden');
-
-        });
+    const sidebarOverlay =
+        document.getElementById('sidebar-overlay');
 
 
-        sidebarOverlay?.addEventListener('click', () => {
+    sidebarToggle?.addEventListener('click', () => {
 
-            sidebar.classList.add('translate-x-full');
+        sidebar.classList.remove('translate-x-full');
 
-            sidebarOverlay.classList.add('hidden');
+        sidebarOverlay.classList.remove('hidden');
 
-        });
-    </script>
+    });
 
-<<<<<<< HEAD
+
+    sidebarOverlay?.addEventListener('click', () => {
+
+        sidebar.classList.add('translate-x-full');
+
+        sidebarOverlay.classList.add('hidden');
+
+    });
+
      /*
     |--------------------------------------------------------------------------
     | Success Notification
@@ -1094,10 +1028,4 @@
 @stack('scripts')
 
 </body>
-=======
-    @stack('scripts')
-
-</body>
-
->>>>>>> e59e1349ae754ac65d7cd412c6356adfc50c337a
 </html>
