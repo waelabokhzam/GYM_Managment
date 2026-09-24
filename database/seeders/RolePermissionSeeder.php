@@ -39,6 +39,18 @@ class RolePermissionSeeder extends Seeder
             'staff.edit',
             'staff.delete',
 
+            // Trainers
+            'trainers.view',
+            'trainers.create',
+            'trainers.edit',
+            'trainers.delete',
+
+            // Reception Staff
+            'reception.view',
+            'reception.create',
+            'reception.edit',
+            'reception.delete',
+
             // Subscriptions
             'subscriptions.view',
             'subscriptions.create',
@@ -156,6 +168,13 @@ class RolePermissionSeeder extends Seeder
             // Staff
             'staff.view',
 
+            // Tranier
+            'trainers.view',
+
+            // Reception Staff
+            'reception.view',
+            'reception.edit',
+
             // Subscriptions
             'subscriptions.view',
             'subscriptions.create',
@@ -192,7 +211,10 @@ class RolePermissionSeeder extends Seeder
 
             // Staff
             'staff.view',
-
+            
+            // Trainers
+            'trainers.view',
+            
             // Subscriptions
             'subscriptions.view',
 

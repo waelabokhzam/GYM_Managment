@@ -54,21 +54,165 @@
     </script>
 
     @stack('styles')
+    <style>
+    /*
+    |--------------------------------------------------------------------------
+    | Sidebar Scrollbar
+    |--------------------------------------------------------------------------
+    */
 
+    .sidebar-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 9999px;
+        transition: background 0.3s ease;
+    }
+
+    .sidebar-scroll:hover {
+        scrollbar-color: rgba(212, 100, 23, 0.55) transparent;
+    }
+
+    .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+        background: rgba(212, 100, 23, 0.55);
+    }
+
+    .sidebar-scroll:hover::-webkit-scrollbar-thumb:hover {
+        background: #D46417;
+    }
+
+     @keyframes notification-enter {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -20px) scale(0.95);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+        }
+    }
+
+    @keyframes notification-exit {
+        0% {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -20px) scale(0.95);
+        }
+    }
+
+    #success-notification {
+        animation:
+            notification-enter
+            0.45s
+            ease-out
+            forwards;
+    }
+
+    #success-notification.notification-hide {
+        animation:
+            notification-exit
+            0.45s
+            ease-in
+            forwards;
+    }
+</style>
 </head>
 
 <body class="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
 @if (session('success'))
 
     <div
-        class="fixed top-5 left-1/2 z-[9999] -translate-x-1/2
-               rounded-xl border border-orange/30
-               bg-black px-6 py-3
-               text-sm font-semibold text-white
-               shadow-2xl"
+        id="success-notification"
+        class="
+            fixed
+            top-5
+            left-1/2
+            z-[9999]
+            flex
+            -translate-x-1/2
+            items-center
+            gap-3
+            rounded-2xl
+            border
+            border-[#D46417]/30
+            bg-[var(--color-surface)]
+            px-5
+            py-3
+            text-sm
+            font-semibold
+            text-[var(--color-text)]
+            shadow-2xl
+            backdrop-blur-md
+            transition-all
+            duration-500
+        "
+        role="alert"
     >
 
-        {{ session('success') }}
+        {{-- Icon --}}
+
+        <div
+            class="
+                flex
+                h-8
+                w-8
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                bg-[#D46417]/10
+                text-[#D46417]
+            "
+        >
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+
+        {{-- Message --}}
+
+        <span>
+            {{ session('success') }}
+        </span>
+
+
+        {{-- Close Button --}}
+
+        <button
+            type="button"
+            onclick="hideSuccessNotification()"
+            class="
+                mr-2
+                flex
+                h-7
+                w-7
+                items-center
+                justify-center
+                rounded-lg
+                text-[var(--color-text-muted)]
+                transition
+                hover:bg-red-500/10
+                hover:text-red-400
+            "
+            aria-label="إغلاق"
+        >
+            <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
 
     </div>
 
@@ -168,7 +312,7 @@
 
         {{-- Navigation --}}
 
-        <nav class="flex-1 overflow-y-auto p-4">
+        <nav class="sidebar-scroll flex-1 overflow-y-auto p-4">
 
             {{-- الرئيسية --}}
 
@@ -243,8 +387,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('players.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-users w-5 text-center"></i>
@@ -269,8 +415,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                        {{ request()->routeIs('sub.*')
+                            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                        }}
                     "
                 >
                     <i class="fa-solid fa-id-card w-5 text-center"></i>
@@ -283,7 +431,7 @@
             @can('trainers.view')
 
                 <a
-                    href="#"
+                    href="{{route('trainers.index')}}"
                     class="
                         mb-1
                         flex
@@ -295,8 +443,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                        {{ request()->routeIs('trainers.*')
+                            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                        }}
                     "
                 >
                     <i class="fa-solid fa-person-running w-5 text-center"></i>
@@ -321,8 +471,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('slots.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-calendar-days w-5 text-center"></i>
@@ -347,8 +499,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('sports.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-dumbbell w-5 text-center"></i>
@@ -373,8 +527,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('attend.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-fingerprint w-5 text-center"></i>
@@ -399,8 +555,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('payments.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-money-bill-wave w-5 text-center"></i>
@@ -440,8 +598,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('reports.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-chart-pie w-5 text-center"></i>
@@ -481,8 +641,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('users.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-user-shield w-5 text-center"></i>
@@ -507,8 +669,10 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        hover:bg-[var(--color-surface-hover)]
-                        hover:text-[var(--color-text)]
+                    {{ request()->routeIs('roles.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
+                    }}
                     "
                 >
                     <i class="fa-solid fa-user-lock w-5 text-center"></i>
@@ -671,7 +835,7 @@
             </div>
 
 
-            
+
             <div class="flex items-center gap-3">
 
                 {{-- معلومات المستخدم --}}
@@ -828,6 +992,37 @@
 
     });
 
+     /*
+    |--------------------------------------------------------------------------
+    | Success Notification
+    |--------------------------------------------------------------------------
+    */
+
+    const successNotification =
+        document.getElementById('success-notification');
+
+
+    function hideSuccessNotification() {
+
+        if (!successNotification) {
+            return;
+        }
+
+        successNotification.classList.add('notification-hide');
+
+        setTimeout(() => {
+            successNotification.remove();
+        }, 450);
+    }
+
+
+    if (successNotification) {
+
+        setTimeout(() => {
+            hideSuccessNotification();
+        }, 5000);
+
+    }
 </script>
 
 @stack('scripts')
