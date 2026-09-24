@@ -256,7 +256,7 @@
 
 
                 @can('training_periods.view')
-                    <a href="#"
+                    <a href="{{ route("timeslots.index") }}"
                         class="
                         mb-1
                         flex

@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -32,6 +33,12 @@ class RolePermissionSeeder extends Seeder
             'subscriptions.create',
             'subscriptions.edit',
             'subscriptions.delete',
+
+            // TimeSlots
+            'timeslots.view',
+            'timeslots.create',
+            'timeslots.edit',
+            'timeslots.delete',
 
             // Trainers
             'trainers.view',
@@ -78,7 +85,7 @@ class RolePermissionSeeder extends Seeder
 
         foreach ($permissions as $permission) {
             Permission::firstOrCreate([
-                'name'       => $permission,
+                'name' => $permission,
                 'guard_name' => 'web',
             ]);
         }
@@ -90,22 +97,22 @@ class RolePermissionSeeder extends Seeder
         */
 
         $admin = Role::firstOrCreate([
-            'name'       => 'admin',
+            'name' => 'admin',
             'guard_name' => 'web',
         ]);
 
         $reception = Role::firstOrCreate([
-            'name'       => 'reception',
+            'name' => 'reception',
             'guard_name' => 'web',
         ]);
 
         $trainer = Role::firstOrCreate([
-            'name'       => 'trainer',
+            'name' => 'trainer',
             'guard_name' => 'web',
         ]);
 
         $player = Role::firstOrCreate([
-            'name'       => 'player',
+            'name' => 'player',
             'guard_name' => 'web',
         ]);
 
@@ -132,6 +139,11 @@ class RolePermissionSeeder extends Seeder
             'members.view',
             'members.create',
             'members.edit',
+
+            'timeslots.view',
+            'timeslots.create',
+            'timeslots.edit',
+            'timeslots.delete',
 
             'subscriptions.view',
             'subscriptions.create',
@@ -163,6 +175,8 @@ class RolePermissionSeeder extends Seeder
 
             'trainers.view',
 
+            'timeslots.view',
+
             'training_periods.view',
 
             'sports.view',
@@ -184,6 +198,8 @@ class RolePermissionSeeder extends Seeder
             'members.view',
 
             'subscriptions.view',
+
+            'timeslots.view',
 
             'training_periods.view',
 
