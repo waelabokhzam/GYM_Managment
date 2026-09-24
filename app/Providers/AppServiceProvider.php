@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Player;
+use App\Models\Staff;
 use App\Policies\Player\PlayerPolicy;
+use App\Policies\Trainer\TrainerPolicy;
 use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Player::class, PlayerPolicy::class);
+        Gate::policy(Staff::class, TrainerPolicy::class);
     }
 }

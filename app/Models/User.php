@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['fullname', 'username', 'password', 'phone'])]
 #[Hidden(['password', 'remember_token'])]

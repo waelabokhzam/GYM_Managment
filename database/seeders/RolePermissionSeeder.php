@@ -39,13 +39,25 @@ class RolePermissionSeeder extends Seeder
             'staff.edit',
             'staff.delete',
 
+            // Trainers
+            'trainers.view',
+            'trainers.create',
+            'trainers.edit',
+            'trainers.delete',
+
+            // Reception Staff
+            'reception.view',
+            'reception.create',
+            'reception.edit',
+            'reception.delete',
+
             // Subscriptions
             'subscriptions.view',
             'subscriptions.create',
             'subscriptions.edit',
             'subscriptions.delete',
 
-            //الفترات 
+            //الفترات
             'timeslots.create',
             'timeslots.edit',
             'timeslots.delete',
@@ -148,11 +160,22 @@ class RolePermissionSeeder extends Seeder
 
         $reception->syncPermissions([
 
-            'timeslots.view',
-            'timeslots.create',
-            'timeslots.edit',
-            'timeslots.delete',
+            // Players
+            'players.view',
+            'players.create',
+            'players.edit',
 
+            // Staff
+            'staff.view',
+
+            // Tranier
+            'trainers.view',
+
+            // Reception Staff
+            'reception.view',
+            'reception.edit',
+
+            // Subscriptions
             'subscriptions.view',
             'subscriptions.create',
             'subscriptions.edit',
@@ -189,11 +212,13 @@ class RolePermissionSeeder extends Seeder
             // Staff
             'staff.view',
 
+            // Trainers
+            'trainers.view',
+
             // Subscriptions
             'subscriptions.view',
 
-            'timeslots.view',
-
+            // Training Periods
             'training_periods.view',
 
             // Sports
@@ -222,8 +247,7 @@ class RolePermissionSeeder extends Seeder
             // Subscriptions
             'subscriptions.view',
 
-            'timeslots.view',
-
+            // Training Periods
             'training_periods.view',
 
             // Sports
@@ -252,3 +276,4 @@ class RolePermissionSeeder extends Seeder
         );
     }
 }
+
