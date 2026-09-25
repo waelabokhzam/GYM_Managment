@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Player extends Model
 {
@@ -27,7 +28,11 @@ class Player extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function Receipts()
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+    public function receipts(): HasMany
     {
         return $this->hasMany(Receipt::class);
     }

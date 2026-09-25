@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\GameController;
 use App\Http\Controllers\Web\PlayerController;
 use App\Http\Controllers\Web\ReceiptController;
+use App\Http\Controllers\Web\SubscriptionController;
 use App\Http\Controllers\Web\TimeSlotController;
 use App\Http\Controllers\Web\TrainerController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,8 @@ Route::middleware('auth')->group(function () {
         'logout',
     ])->name('logout');
 
+
+    Route::resource('subscriptions', SubscriptionController::class);
 
 
 });
