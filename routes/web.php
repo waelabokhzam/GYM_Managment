@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\PlayerController;
 use App\Http\Controllers\Web\TrainerController;
 
 use App\Http\Controllers\Web\GameController;
+use App\Http\Controllers\Web\SubscriptionController;
 use App\Http\Controllers\Web\TimeSlotController;
 
 use Illuminate\Support\Facades\Route;
@@ -75,6 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('players', PlayerController::class);
 
     Route::resource('trainers', TrainerController::class);
+
+    Route::resource('subscriptions', SubscriptionController::class);
 
 
 });
