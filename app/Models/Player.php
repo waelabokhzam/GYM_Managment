@@ -27,4 +27,8 @@ class Player extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function Receipts()
+    {
+        return $this->hasMany(Receipt::class);
+    }
 }

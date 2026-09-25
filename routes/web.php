@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
-
-use App\Http\Controllers\Web\PlayerController;
-use App\Http\Controllers\Web\TrainerController;
-
 use App\Http\Controllers\Web\GameController;
+use App\Http\Controllers\Web\PlayerController;
+use App\Http\Controllers\Web\ReceiptController;
 use App\Http\Controllers\Web\TimeSlotController;
-
+use App\Http\Controllers\Web\TrainerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -65,6 +63,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('timeslots', TimeSlotController::class);
 
+    Route::resource('players', PlayerController::class);
+    Route::resource('trainers', TrainerController::class);
+    Route::resource('receipts', ReceiptController::class);
     // Logout
 
     Route::post('/logout', [
@@ -72,9 +73,6 @@ Route::middleware('auth')->group(function () {
         'logout',
     ])->name('logout');
 
-    Route::resource('players', PlayerController::class);
-
-    Route::resource('trainers', TrainerController::class);
 
 
 });
