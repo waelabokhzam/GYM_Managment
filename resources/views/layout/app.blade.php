@@ -403,7 +403,7 @@
             @can('subscriptions.view')
 
                 <a
-                    href="#"
+                    href="{{route('subscriptions.index')}}"
                     class="
                         mb-1
                         flex
@@ -415,7 +415,7 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                        {{ request()->routeIs('sub.*')
+                        {{ request()->routeIs('subscriptions.*')
                             ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                             : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
                         }}
