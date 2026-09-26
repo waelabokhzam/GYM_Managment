@@ -570,7 +570,7 @@
 
             {{-- التقارير --}}
 
-            @can('reports.view')
+            {{-- @can('reports.view')
 
                 <div
                     class="
@@ -608,7 +608,7 @@
                     <span>التقارير</span>
                 </a>
 
-            @endcan
+            @endcan --}}
 
 
             {{-- الإدارة --}}
@@ -629,7 +629,7 @@
                 </div>
 
                 <a
-                    href="#"
+                    href="{{route('users.index')}}"
                     class="
                         mb-1
                         flex
@@ -647,14 +647,14 @@
                     }}
                     "
                 >
-                    <i class="fa-solid fa-user-shield w-5 text-center"></i>
-                    <span>المستخدمون</span>
+                    <i class="fa-solid fa-user-lock w-5 text-center"></i>
+                    <span>المستخدمون و الصلاحيات</span>
                 </a>
 
             @endcan
 
 
-            @can('roles.manage')
+            {{-- @can('roles.manage')
 
                 <a
                     href="#"
@@ -679,7 +679,7 @@
                     <span>الأدوار والصلاحيات</span>
                 </a>
 
-            @endcan
+            @endcan --}}
 
         </nav>
 

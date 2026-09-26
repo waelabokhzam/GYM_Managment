@@ -8,7 +8,7 @@ use App\Http\Controllers\Web\TrainerController;
 use App\Http\Controllers\Web\GameController;
 use App\Http\Controllers\Web\SubscriptionController;
 use App\Http\Controllers\Web\TimeSlotController;
-
+use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -79,5 +79,5 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('subscriptions', SubscriptionController::class);
 
-
+    Route::resource('users', UserController::class);
 });
