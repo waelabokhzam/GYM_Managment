@@ -8,6 +8,7 @@ use App\Http\Requests\Receipt\ReceiptUpdateRequest;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\Receipt;
+use App\Models\Subscription;
 use App\Services\Receipt\CreateReceiptService;
 use App\Services\Receipt\DeleteReceiptService;
 use App\Services\Receipt\IndexService;
@@ -18,6 +19,7 @@ use Illuminate\Http\Request;
 class ReceiptController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -27,11 +29,15 @@ class ReceiptController extends Controller
         private UpdateReceiptService $updateReceiptService,
         private DeleteReceiptService $deleteReceiptService,
     ) {}
+
     public function index(Request $request)
     {
-        $this->authorize("viewAny", Receipt::class);
+        $this->authorize('viewAny', Receipt::class);
         $receipts = $this->indexService->index($request);
-        return view("receipt.index", compact('receipts'));
+        $games = Game::query()->orderBy('name')->get();
+        $players = Player::query()->with('user')->orderBy('unique_number')->get();
+
+        return view('receipt.index', compact('receipts', 'games', 'players'));
     }
 
     /**
@@ -39,10 +45,12 @@ class ReceiptController extends Controller
      */
     public function create()
     {
-        $this->authorize("create", Receipt::class);
-        $players = Player::get('*');
-        $games = Game::get('*');
-        return view("receipt.create", compact(['games','players']));
+        $this->authorize('create', Receipt::class);
+        $players = Player::query()->with('user')->orderBy('unique_number')->get();
+        $games = Game::query()->orderBy('name')->get();
+        $subscriptions = Subscription::query()->with('player.user')->orderByDesc('start_date')->get();
+
+        return view('receipt.create', compact('games', 'players', 'subscriptions'));
     }
 
     /**
@@ -50,9 +58,10 @@ class ReceiptController extends Controller
      */
     public function store(ReceiptStoreRequest $request)
     {
-        $this->authorize("create", Receipt::class);
+        $this->authorize('create', Receipt::class);
         $this->createReceiptService->create($request->validated());
-        return redirect()->route("receipts.index")->with('success', 'Receipt created successfully.');
+
+        return redirect()->route('receipts.index')->with('success', 'Receipt created successfully.');
     }
 
     /**
@@ -60,8 +69,10 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
-        $this->authorize("view", $receipt);
-        return view("receipt.show", compact('receipt'));
+        $this->authorize('view', $receipt);
+        $receipt->load(['game', 'player.user', 'subscription.player.user', 'receivedBy.user']);
+
+        return view('receipt.show', compact('receipt'));
     }
 
     /**
@@ -69,10 +80,12 @@ class ReceiptController extends Controller
      */
     public function edit(Receipt $receipt)
     {
-        $this->authorize("update", $receipt);
-        $players = Player::get('*');
-        $games = Game::get('*');
-        return view("receipt.edit", compact(["receipt", "players", "games"]));
+        $this->authorize('update', $receipt);
+        $players = Player::query()->with('user')->orderBy('unique_number')->get();
+        $games = Game::query()->orderBy('name')->get();
+        $subscriptions = Subscription::query()->with('player.user')->orderByDesc('start_date')->get();
+
+        return view('receipt.edit', compact('receipt', 'games', 'players', 'subscriptions'));
     }
 
     /**
@@ -80,9 +93,10 @@ class ReceiptController extends Controller
      */
     public function update(ReceiptUpdateRequest $request, Receipt $receipt)
     {
-        $this->authorize("update", $receipt);
+        $this->authorize('update', $receipt);
         $this->updateReceiptService->update($request->validated(), $receipt);
-        return redirect()->route("receipts.show", $receipt)->with('success', 'Receipt updated successfully.');
+
+        return redirect()->route('receipts.show', $receipt)->with('success', 'Receipt updated successfully.');
     }
 
     /**
@@ -90,9 +104,10 @@ class ReceiptController extends Controller
      */
     public function destroy(Receipt $receipt)
     {
-        $this->authorize("delete", $receipt);
+        $this->authorize('delete', $receipt);
         $this->deleteReceiptService->delete($receipt);
-        return redirect()->route("receipts.index")->with('success', 'Receipt deleted successfully.');
+
+        return redirect()->route('receipts.index')->with('success', 'Receipt deleted successfully.');
 
     }
 }

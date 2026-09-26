@@ -45,8 +45,9 @@ class Receipt extends Model
     {
         return $this->belongsTo(Staff::class);
     }
-    // public function subscription()
-    // {
-    //     return $this->belongsTo(Subscription::class);
-    // }
+
+    public function subscription()
+    {
+        return $this->belongsTo(Subscription::class);
+    }
 }
