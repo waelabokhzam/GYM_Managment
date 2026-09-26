@@ -23,6 +23,7 @@ class UpdateTrainerTimeSlotRequest extends FormRequest
      */
     public function rules(): array
     {
+        $trainerTimeSlot = $this->route('trainer-time-slots');
       return [
         'staff_id' => [
             'required',

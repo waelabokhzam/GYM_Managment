@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Services\Users\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -63,7 +63,15 @@ class UserController extends Controller
     {
         Gate::authorize('create', User::class);
 
-        return view('users.create');
+        $roles = Role::query()
+            ->where('guard_name', 'web')
+            ->orderBy('name')
+            ->get();
+
+        return view(
+            'users.create',
+            compact('roles')
+        );
     }
 
     /**
@@ -103,7 +111,7 @@ class UserController extends Controller
     }
 
     /**
-     * تعديل المستخدم.
+     * صفحة تعديل المستخدم.
      */
     public function edit(User $user)
     {
@@ -115,9 +123,14 @@ class UserController extends Controller
             'staff',
         ]);
 
+        $roles = Role::query()
+            ->where('guard_name', 'web')
+            ->orderBy('name')
+            ->get();
+
         return view(
             'users.edit',
-            compact('user')
+            compact('user', 'roles')
         );
     }
 
@@ -128,7 +141,6 @@ class UserController extends Controller
         UpdateUserRequest $request,
         User $user
     ) {
-
         $this->service->update(
             $user,
             $request->validated()

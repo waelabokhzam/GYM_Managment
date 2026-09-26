@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\GameController;
 use App\Http\Controllers\Web\PlayerController;
 use App\Http\Controllers\Web\ReceiptController;
+use App\Http\Controllers\Web\RoleController;
 use App\Http\Controllers\Web\SubscriptionController;
 use App\Http\Controllers\Web\TimeSlotController;
 use App\Http\Controllers\Web\TrainerController;
@@ -80,5 +81,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('subscriptions', SubscriptionController::class);
 
     Route::resource('users', UserController::class);
+
+    Route::resource('roles', RoleController::class);
+    
     Route::resource('trainer-time-slots',TrainerTimeSlotController::class);
 });

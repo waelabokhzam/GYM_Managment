@@ -25,112 +25,77 @@ class StoreUserRequest extends FormRequest
         $role = $this->input('role');
 
         return [
-            /*
-            |--------------------------------------------------------------------------
-            | User
-            |--------------------------------------------------------------------------
-            */
 
-            'fullname'      => [
-                'required',
-                'string',
-                'max:255',
-            ],
+        'fullname' => [
+            'required',
+            'string',
+            'max:255',
+        ],
 
-            'phone'         => [
-                'required',
-                'string',
-                'max:30',
-                'unique:users,phone',
-            ],
+        'phone' => [
+            'required',
+            'string',
+            'max:30',
+            'unique:users,phone',
+        ],
 
-            'password'      => [
-                'required',
-                'string',
-                'min:8',
-                'confirmed',
-            ],
+        'role' => [
+            'required',
+            'string',
+            'exists:roles,name',
+        ],
 
-            'role'          => [
-                'required',
-                Rule::in([
-                    'admin',
-                    'reception',
-                    'trainer',
-                    'player',
-                ]),
-            ],
+        'password' => [
+            'required',
+            'confirmed',
+            'min:8',
+        ],
 
-            /*
-            |--------------------------------------------------------------------------
-            | Staff
-            |--------------------------------------------------------------------------
-            */
+        'salary_type' => [
+            'nullable',
+            'in:fixed,percentage',
+        ],
 
-            'salary_type'   => [
-                Rule::requiredIf(
-                    in_array($role, ['admin', 'reception', 'trainer'])
-                ),
-                Rule::in([
-                    'fixed',
-                    'percentage',
-                ]),
-            ],
+        'base_salary' => [
+            'nullable',
+            'numeric',
+            'min:0',
+        ],
 
-            'base_salary'   => [
-                Rule::requiredIf(
-                    in_array($role, ['admin', 'reception', 'trainer'])
-                ),
-                'numeric',
-                'min:0',
-            ],
+        'unique_number' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
 
-            /*
-            |--------------------------------------------------------------------------
-            | Player
-            |--------------------------------------------------------------------------
-            */
+        'gender' => [
+            'nullable',
+            'in:male,female',
+        ],
 
-            'unique_number' => [
-                Rule::requiredIf($role === 'player'),
-                'string',
-                'max:255',
-                'unique:players,unique_number',
-            ],
+        'height' => [
+            'nullable',
+            'numeric',
+            'min:0',
+        ],
 
-            'height'        => [
-                'nullable',
-                'numeric',
-                'min:0',
-                'max:300',
-            ],
+        'weight' => [
+            'nullable',
+            'numeric',
+            'min:0',
+        ],
 
-            'weight'        => [
-                'nullable',
-                'numeric',
-                'min:0',
-                'max:500',
-            ],
+        'occupation' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
 
-            'health_status' => [
-                'nullable',
-                'string',
-            ],
-
-            'occupation'    => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-
-            'gender'        => [
-                Rule::requiredIf($role === 'player'),
-                Rule::in([
-                    'male',
-                    'female',
-                ]),
-            ],
-        ];
+        'health_status' => [
+            'nullable',
+            'string',
+        ],
+    ];
     }
     public function attributes(): array
     {
