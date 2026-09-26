@@ -32,4 +32,8 @@ class Player extends Model
     {
         return $this->hasMany(Subscription::class);
     }
+    public function receipts(): HasMany
+    {
+        return $this->hasMany(Receipt::class);
+    }
 }

@@ -10,4 +10,9 @@ class Game extends Model
         "name",
         "description"
     ];
+
+    public function Receipts()
+    {
+        return $this->hasMany(Receipt::class);
+    }
 }
