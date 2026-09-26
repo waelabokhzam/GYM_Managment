@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\ReceiptController;
 use App\Http\Controllers\Web\SubscriptionController;
 use App\Http\Controllers\Web\TimeSlotController;
 use App\Http\Controllers\Web\TrainerController;
+use App\Http\Controllers\Web\TrainerTimeSlotController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -79,4 +80,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('subscriptions', SubscriptionController::class);
 
     Route::resource('users', UserController::class);
+    Route::resource('trainer-time-slots',TrainerTimeSlotController::class);
 });
