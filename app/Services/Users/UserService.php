@@ -27,13 +27,15 @@ class UserService
                 'password' => Hash::make($data['password']),
             ]);
 
+
             /*
             |--------------------------------------------------------------------------
-            | Spatie Role
+            | Assign Role
             |--------------------------------------------------------------------------
             */
 
             $user->assignRole($data['role']);
+
 
             /*
             |--------------------------------------------------------------------------
@@ -41,11 +43,17 @@ class UserService
             |--------------------------------------------------------------------------
             */
 
-            $this->syncRoleData($user, $data['role'], $data);
+            $this->syncRoleData(
+                $user,
+                $data['role'],
+                $data
+            );
+
 
             return $user;
         });
     }
+
 
     /**
      * تحديث مستخدم.
@@ -56,28 +64,45 @@ class UserService
 
             /*
             |--------------------------------------------------------------------------
-            | Update basic information
+            | Basic information
             |--------------------------------------------------------------------------
             */
 
             $user->fullname = $data['fullname'];
+
             $user->phone = $data['phone'];
 
-            if (!empty($data['password'])) {
-                $user->password = Hash::make($data['password']);
-            }
-
-            $user->save();
 
             /*
             |--------------------------------------------------------------------------
-            | Current / New Role
+            | Password
+            |--------------------------------------------------------------------------
+            */
+
+            if (!empty($data['password'])) {
+
+                $user->password = Hash::make(
+                    $data['password']
+                );
+
+            }
+
+
+            $user->save();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | New Role
             |--------------------------------------------------------------------------
             */
 
             $newRole = $data['role'];
 
-            $currentRole = $user->getRoleNames()->first();
+            $currentRole = $user
+                ->getRoleNames()
+                ->first();
+
 
             /*
             |--------------------------------------------------------------------------
@@ -87,35 +112,42 @@ class UserService
 
             if ($currentRole !== $newRole) {
 
+                /*
+                | Remove old role-specific data
+                */
+
+                $user->staff()?->delete();
+
+                $user->player()?->delete();
+
+
+                /*
+                | Assign new role
+                */
+
                 $user->syncRoles([
                     $newRole,
                 ]);
 
-                /*
-                | Delete old role-specific data
-                */
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Ensure only correct role data exists
+            |--------------------------------------------------------------------------
+            */
+
+            if ($newRole === 'player') {
 
                 $user->staff()?->delete();
-                $user->player()?->delete();
 
             } else {
 
-                /*
-                | Remove any invalid old data
-                */
+                $user->player()?->delete();
 
-                if ($newRole === 'player') {
-                    $user->staff()?->delete();
-                }
-
-                if (in_array($newRole, [
-                    'admin',
-                    'reception',
-                    'trainer',
-                ])) {
-                    $user->player()?->delete();
-                }
             }
+
 
             /*
             |--------------------------------------------------------------------------
@@ -129,6 +161,7 @@ class UserService
                 $data
             );
 
+
             return $user->fresh([
                 'staff',
                 'player',
@@ -136,6 +169,7 @@ class UserService
             ]);
         });
     }
+
 
     /**
      * حذف المستخدم.
@@ -145,6 +179,7 @@ class UserService
         return DB::transaction(function () use ($user) {
 
             $user->staff()?->delete();
+
             $user->player()?->delete();
 
             $user->syncRoles([]);
@@ -152,6 +187,7 @@ class UserService
             return (bool) $user->delete();
         });
     }
+
 
     /**
      * إنشاء أو تحديث بيانات Staff / Player.
@@ -162,6 +198,12 @@ class UserService
         array $data
     ): void {
 
+        /*
+        |--------------------------------------------------------------------------
+        | Player
+        |--------------------------------------------------------------------------
+        */
+
         if ($role === 'player') {
 
             Player::updateOrCreate(
@@ -169,36 +211,37 @@ class UserService
                     'user_id' => $user->id,
                 ],
                 [
-                    'unique_number' => $data['unique_number'],
+                    'unique_number' => $data['unique_number'] ?? null,
                     'height' => $data['height'] ?? null,
                     'weight' => $data['weight'] ?? null,
                     'health_status' => $data['health_status'] ?? null,
                     'occupation' => $data['occupation'] ?? null,
-                    'gender' => $data['gender'],
+                    'gender' => $data['gender'] ?? null,
                 ]
             );
 
             return;
         }
 
-        if (in_array($role, [
-            'admin',
-            'reception',
-            'trainer',
-        ])) {
 
-            Staff::updateOrCreate(
-                [
-                    'user_id' => $user->id,
-                ],
-                [
-                    'role' => $role,
-                    'salary_type' => $data['salary_type'],
-                    'base_salary' => $data['base_salary'],
-                ]
-            );
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | All other roles = Staff
+        |--------------------------------------------------------------------------
+        */
+
+        Staff::updateOrCreate(
+            [
+                'user_id' => $user->id,
+            ],
+            [
+                'role' => $role,
+                'salary_type' => $data['salary_type'] ?? 'fixed',
+                'base_salary' => $data['base_salary'] ?? null,
+            ]
+        );
     }
+
 
     /**
      * توليد Username.
@@ -213,7 +256,10 @@ class UserService
                 );
 
         } while (
-            User::where('username', $username)->exists()
+            User::where(
+                'username',
+                $username
+            )->exists()
         );
 
         return $username;

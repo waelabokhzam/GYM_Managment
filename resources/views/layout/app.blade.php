@@ -595,10 +595,10 @@
                 @endcan
 
 
-                {{-- @can('roles.manage')
+                @can('roles.manage')
 
                 <a
-                    href="#"
+                    href="{{route('roles.index')}}"
                     class="
                         mb-1
                         flex
@@ -620,7 +620,7 @@
                     <span>الأدوار والصلاحيات</span>
                 </a>
 
-            @endcan --}}
+            @endcan
 
             </nav>
 

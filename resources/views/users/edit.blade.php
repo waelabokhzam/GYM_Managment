@@ -6,13 +6,14 @@
 @section('content')
 
 @php
-    $role = $user->roles->first()?->name;
+    $currentRole = $user->roles->first()?->name;
 @endphp
 
 <div class="mx-auto max-w-5xl">
 
     <div class="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
 
+        {{-- Header --}}
         <div class="mb-8">
 
             <h2 class="text-xl font-extrabold">
@@ -20,12 +21,13 @@
             </h2>
 
             <p class="mt-1 text-sm text-[var(--color-text-muted)]">
-                تعديل بيانات الحساب والصلاحية والبيانات المرتبطة به
+                تعديل بيانات الحساب والدور والبيانات المرتبطة به
             </p>
 
         </div>
 
 
+        {{-- Errors --}}
         @if ($errors->any())
 
             <div class="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400">
@@ -33,7 +35,9 @@
                 <ul class="list-inside list-disc space-y-1">
 
                     @foreach ($errors->all() as $error)
+
                         <li>{{ $error }}</li>
+
                     @endforeach
 
                 </ul>
@@ -62,6 +66,8 @@
 
                 <div class="grid gap-5 md:grid-cols-2">
 
+
+                    {{-- Fullname --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -73,12 +79,14 @@
                             name="fullname"
                             value="{{ old('fullname', $user->fullname) }}"
                             required
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Username --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -89,12 +97,14 @@
                             type="text"
                             value="{{ $user->username }}"
                             disabled
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 opacity-60"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3 opacity-60"
                         >
 
                     </div>
 
 
+                    {{-- Phone --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -106,46 +116,51 @@
                             name="phone"
                             value="{{ old('phone', $user->phone) }}"
                             required
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Dynamic Role --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
-                            الصلاحية
+                            الدور
                         </label>
 
                         <select
                             name="role"
                             id="role"
                             required
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
-                            <option value="admin" {{$role == 'admin' ? 'selected' : ''}}>
-                                أدمن
+                            <option value="">
+                                اختر الدور
                             </option>
 
-                            <option value="reception" {{ $role == 'reception' ? 'selected' : ''}}>
-                                موظف استقبال
-                            </option>
+                            @foreach ($roles as $role)
 
-                            <option value="trainer" {{ $role == 'trainer' ? 'selected' : ''}}>
-                                مدرب
-                            </option>
+                                <option
+                                    value="{{ $role->name }}"
+                                    @selected(
+                                        old('role', $currentRole) === $role->name
+                                    )
+                                >
+                                    {{ $role->name }}
+                                </option>
 
-                            <option value="player" {{ $role == 'player' ? 'selected' : ''}}>
-                                لاعب
-                            </option>
+                            @endforeach
 
                         </select>
 
                     </div>
 
 
+                    {{-- Password --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -156,12 +171,14 @@
                             type="password"
                             name="password"
                             placeholder="اتركها فارغة إذا لم ترد تغييرها"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Password Confirmation --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -171,7 +188,8 @@
                         <input
                             type="password"
                             name="password_confirmation"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
@@ -182,7 +200,11 @@
 
 
             {{-- Staff --}}
-            <div id="staff-section" class="{{ in_array($role, ['admin','reception','trainer']) ? '' : 'hidden' }} border-t border-[var(--color-border)] pt-8">
+            <div
+                id="staff-section"
+                class="{{ $currentRole && $currentRole !== 'player' ? '' : 'hidden' }}
+                       border-t border-[var(--color-border)] pt-8"
+            >
 
                 <h3 class="mb-4 text-lg font-bold">
                     بيانات الموظف
@@ -190,6 +212,8 @@
 
                 <div class="grid gap-5 md:grid-cols-2">
 
+
+                    {{-- Salary Type --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -198,19 +222,30 @@
 
                         <select
                             name="salary_type"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                             <option
                                 value="fixed"
-                                @selected(old('salary_type', $user->staff?->salary_type) === 'fixed')
+                                @selected(
+                                    old(
+                                        'salary_type',
+                                        $user->staff?->salary_type
+                                    ) === 'fixed'
+                                )
                             >
                                 راتب ثابت
                             </option>
 
                             <option
                                 value="percentage"
-                                @selected(old('salary_type', $user->staff?->salary_type) === 'percentage')
+                                @selected(
+                                    old(
+                                        'salary_type',
+                                        $user->staff?->salary_type
+                                    ) === 'percentage'
+                                )
                             >
                                 نسبة
                             </option>
@@ -220,6 +255,7 @@
                     </div>
 
 
+                    {{-- Base Salary --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -231,7 +267,8 @@
                             step="0.01"
                             name="base_salary"
                             value="{{ old('base_salary', $user->staff?->base_salary) }}"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
@@ -242,7 +279,11 @@
 
 
             {{-- Player --}}
-            <div id="player-section" class="{{ $role === 'player' ? '' : 'hidden' }} border-t border-[var(--color-border)] pt-8">
+            <div
+                id="player-section"
+                class="{{ $currentRole === 'player' ? '' : 'hidden' }}
+                       border-t border-[var(--color-border)] pt-8"
+            >
 
                 <h3 class="mb-4 text-lg font-bold">
                     بيانات اللاعب
@@ -250,6 +291,8 @@
 
                 <div class="grid gap-5 md:grid-cols-2">
 
+
+                    {{-- Unique Number --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -261,12 +304,14 @@
                             readonly
                             name="unique_number"
                             value="{{ old('unique_number', $user->player?->unique_number) }}"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Gender --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -275,14 +320,35 @@
 
                         <select
                             name="gender"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
-                            <option value="male" @selected(old('gender', $user->player?->gender) === 'male')}>
+                            <option value="">
+                                اختر الجنس
+                            </option>
+
+                            <option
+                                value="male"
+                                @selected(
+                                    old(
+                                        'gender',
+                                        $user->player?->gender
+                                    ) === 'male'
+                                )
+                            >
                                 ذكر
                             </option>
 
-                            <option value="female" @selected(old('gender', $user->player?->gender) === 'female')}>
+                            <option
+                                value="female"
+                                @selected(
+                                    old(
+                                        'gender',
+                                        $user->player?->gender
+                                    ) === 'female'
+                                )
+                            >
                                 أنثى
                             </option>
 
@@ -291,6 +357,7 @@
                     </div>
 
 
+                    {{-- Height --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -302,12 +369,14 @@
                             step="0.01"
                             name="height"
                             value="{{ old('height', $user->player?->height) }}"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Weight --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -319,12 +388,14 @@
                             step="0.01"
                             name="weight"
                             value="{{ old('weight', $user->player?->weight) }}"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Occupation --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -335,12 +406,14 @@
                             type="text"
                             name="occupation"
                             value="{{ old('occupation', $user->player?->occupation) }}"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >
 
                     </div>
 
 
+                    {{-- Health --}}
                     <div>
 
                         <label class="mb-2 block text-sm font-bold">
@@ -350,7 +423,8 @@
                         <textarea
                             name="health_status"
                             rows="3"
-                            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3"
+                            class="w-full rounded-xl border border-[var(--color-border)]
+                                   bg-[var(--color-background)] px-4 py-3"
                         >{{ old('health_status', $user->player?->health_status) }}</textarea>
 
                     </div>
@@ -365,14 +439,16 @@
 
                 <a
                     href="{{ route('users.index') }}"
-                    class="rounded-xl border border-[var(--color-border)] px-6 py-3 font-bold"
+                    class="rounded-xl border border-[var(--color-border)]
+                           px-6 py-3 font-bold"
                 >
                     إلغاء
                 </a>
 
                 <button
                     type="submit"
-                    class="rounded-xl bg-[#D46417] px-6 py-3 font-bold text-white hover:bg-[#b95412]"
+                    class="rounded-xl bg-[#D46417] px-6 py-3
+                           font-bold text-white hover:bg-[#b95412]"
                 >
                     حفظ التعديلات
                 </button>
@@ -388,32 +464,67 @@
 
 <script>
 
+document.addEventListener('DOMContentLoaded', function () {
+
     const roleSelect = document.getElementById('role');
 
     const staffSection = document.getElementById('staff-section');
     const playerSection = document.getElementById('player-section');
 
+
     function toggleRoleSections() {
 
         const role = roleSelect.value;
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | إخفاء الأقسام
+        |--------------------------------------------------------------------------
+        */
+
         staffSection.classList.add('hidden');
         playerSection.classList.add('hidden');
 
-        if (
-            role === 'admin' ||
-            role === 'reception' ||
-            role === 'trainer'
-        ) {
-            staffSection.classList.remove('hidden');
-        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Player
+        |--------------------------------------------------------------------------
+        */
 
         if (role === 'player') {
+
             playerSection.classList.remove('hidden');
+
+            return;
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | أي Role آخر = Staff
+        |--------------------------------------------------------------------------
+        */
+
+        if (role !== '') {
+
+            staffSection.classList.remove('hidden');
+
+        }
+
     }
 
-    roleSelect.addEventListener('change', toggleRoleSections);
+
+    roleSelect.addEventListener(
+        'change',
+        toggleRoleSections
+    );
+
+
+    toggleRoleSections();
+
+});
 
 </script>
 

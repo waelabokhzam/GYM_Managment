@@ -7,12 +7,14 @@ use App\Models\Subscription;
 use App\Models\TrainerTimeSlot;
 use App\Models\User;
 use App\Policies\Player\PlayerPolicy;
+use App\Policies\Role\RolePolicy;
 use App\Policies\Subscription\SubscriptionPolicy;
 use App\Policies\Trainer\TrainerPolicy;
 use App\Policies\TrainerTime\TrainerTimeSlotPolicy;
 use App\Policies\Users\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +36,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Subscription::class, SubscriptionPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(TrainerTimeSlot::class, TrainerTimeSlotPolicy::class);
+        Gate::policy(Role::class, RolePolicy::class);
     }
 }
