@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Game extends Model
 {
     protected $fillable = [
@@ -14,5 +15,20 @@ class Game extends Model
     public function Receipts()
     {
         return $this->hasMany(Receipt::class);
+    }
+
+    public function playerGames(): HasMany
+    {
+        return $this->hasMany(PlayerGame::class);
+    }
+
+    public function players(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Player::class,
+            'player_games',
+            'game_id',
+            'player_id'
+        )->withTimestamps();
     }
 }

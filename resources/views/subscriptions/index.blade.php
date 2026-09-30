@@ -65,16 +65,17 @@
 
                 <thead class="border-b border-[var(--color-border)] bg-[var(--color-background)]">
 
-                    <tr>
+                    <tr >
 
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">اللاعب</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">نوع الاشتراك</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">التسجيل</th>
+                        <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">المبلغ</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">البداية</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الانتهاء</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الحالة</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الإجراءات</th>
-
+                        
                     </tr>
 
                 </thead>
@@ -131,6 +132,17 @@
                             </span>
 
                         </td>
+
+                        {{-- Amount --}}
+                        <td class="px-6 py-4">
+
+                            <span class="font-bold text-[#D46417]">
+                                {{ number_format($subscription->amount, 2) }} $
+                            </span>
+
+                        </td>
+
+                        
 
                         {{-- Dates --}}
                         <td class="px-6 py-4 text-sm">{{ $subscription->start_date->format('Y-m-d') }}</td>
@@ -194,7 +206,7 @@
                     @empty
 
                     <tr>
-                        <td colspan="7" class="px-6 py-16 text-center">
+                        <td colspan="8" class="px-6 py-16 text-center">
 
                             <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#D46417]/10 text-2xl text-[#D46417]">
                                 <i class="fa-solid fa-id-card"></i>

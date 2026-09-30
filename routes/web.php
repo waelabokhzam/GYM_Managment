@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\FinancialTransactionController;
 use App\Http\Controllers\Web\GameController;
+use App\Http\Controllers\Web\InternalRequestController;
 use App\Http\Controllers\Web\PlayerController;
 use App\Http\Controllers\Web\ReceiptController;
 use App\Http\Controllers\Web\RoleController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Web\TimeSlotController;
 use App\Http\Controllers\Web\TrainerController;
 use App\Http\Controllers\Web\TrainerTimeSlotController;
 use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\PlayerGameController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -85,4 +88,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     
     Route::resource('trainer-time-slots',TrainerTimeSlotController::class);
+
+    Route::resource('player-games',PlayerGameController::class);
+
+    Route::resource('internal-requests',InternalRequestController::class);
+
+    Route::resource('financial-transactions',FinancialTransactionController::class);
 });

@@ -98,6 +98,18 @@ class RolePermissionSeeder extends Seeder
             // Roles & Permissions
             'roles.manage',
             'permissions.manage',
+
+            // InternalRequests
+            'internal_requests.view',
+            'internal_requests.create',
+            'internal_requests.edit',
+            'internal_requests.manage',
+
+            // FinancialTransactions
+            'financial_transactions.view',
+            'financial_transactions.create',
+            'financial_transactions.edit',
+            'financial_transactions.delete',
         ];
 
         /*
@@ -196,6 +208,15 @@ class RolePermissionSeeder extends Seeder
 
             // Reports
             'reports.view',
+
+            // InternalRequests
+            'internal_requests.view',
+            'internal_requests.create',
+            'internal_requests.edit',
+            
+            //FinancialTransactions
+            'financial_transactions.view',
+            'financial_transactions.create',
         ]);
 
         /*
@@ -231,6 +252,11 @@ class RolePermissionSeeder extends Seeder
 
             // Reports
             'reports.view',
+
+            // InternalRequests
+            'internal_requests.view',
+            'internal_requests.create',
+            'internal_requests.edit',
         ]);
 
         /*

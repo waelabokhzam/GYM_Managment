@@ -34,13 +34,32 @@
 <div class="grid gap-5 md:grid-cols-3">
 
 @php
-$items=[
-'نوع الاشتراك'=>$subscription->sub_type,
-'نوع التسجيل'=>$subscription->registration_type,
-'الحالة'=>$subscription->status,
-'تاريخ البداية'=>$subscription->start_date->format('Y-m-d'),
-'تاريخ النهاية'=>$subscription->end_date->format('Y-m-d'),
-'المدة المتبقية'=>$subscription->end_date->isFuture()?$subscription->end_date->diffInDays(now()).' يوم':'منتهي',
+$items = [
+    'نوع الاشتراك' => match($subscription->sub_type) {
+        'monthly' => 'شهري',
+        'daily' => 'يومي',
+        'offers' => 'عرض',
+        'special' => 'خاص',
+        default => $subscription->sub_type,
+    },
+
+    'نوع التسجيل' => $subscription->registration_type === 'new'
+        ? 'أول مرة'
+        : 'تجديد',
+
+    'مبلغ الاشتراك' => number_format($subscription->amount, 2) . ' $',
+
+    'الحالة' => $subscription->status === 'active'
+        ? 'نشط'
+        : 'منتهي',
+
+    'تاريخ البداية' => $subscription->start_date->format('Y-m-d'),
+
+    'تاريخ النهاية' => $subscription->end_date->format('Y-m-d'),
+
+    'المدة المتبقية' => $subscription->end_date->isFuture()
+        ? $subscription->end_date->diffInDays(now()) . ' يوم'
+        : 'منتهي',
 ];
 @endphp
 
