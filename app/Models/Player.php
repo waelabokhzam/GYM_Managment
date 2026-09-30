@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Player extends Model
 {
@@ -35,5 +36,20 @@ class Player extends Model
     public function receipts(): HasMany
     {
         return $this->hasMany(Receipt::class);
+    }
+
+    public function playerGames(): HasMany
+    {
+        return $this->hasMany(PlayerGame::class);
+    }
+
+    public function games(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Game::class,
+            'player_games',
+            'player_id',
+            'game_id'
+        )->withTimestamps();
     }
 }

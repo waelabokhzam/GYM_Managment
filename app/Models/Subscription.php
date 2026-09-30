@@ -14,6 +14,7 @@ class Subscription extends Model
         'start_date',
         'end_date',
         'status',
+        'amount',
     ];
 
     protected function casts(): array
@@ -21,6 +22,7 @@ class Subscription extends Model
         return [
             'start_date' => 'date',
             'end_date' => 'date',
+            'amount' => 'decimal:2',
         ];
     }
 

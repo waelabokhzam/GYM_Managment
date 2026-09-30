@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 #[Fillable(['fullname', 'username', 'password', 'phone'])]
 #[Hidden(['password', 'remember_token'])]
@@ -39,5 +41,12 @@ class User extends Authenticatable
     public function staff(): HasOne
     {
         return $this->hasOne(Staff::class);
+    }
+    public function internalRequests(): HasMany
+    {
+        return $this->hasMany(
+            InternalRequest::class,
+            'requested_by'
+        );
     }
 }

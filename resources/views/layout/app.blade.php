@@ -389,7 +389,27 @@
                         <span>المدربون</span>
                     </a>
                 @endcan
-
+                @can('sports.view')
+                    <a href="{{ route('games.index') }}"
+                        class="
+                        mb-1
+                        flex
+                        items-center
+                        gap-3
+                        rounded-xl
+                        px-4
+                        py-3
+                        text-sm
+                        text-[var(--color-text-muted)]
+                        transition
+                    {{ request()->routeIs('games.*')
+                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
+                    ">
+                        <i class="fa-solid fa-dumbbell w-5 text-center"></i>
+                        <span>الرياضات</span>
+                    </a>
+                @endcan
 
                 @can('training_periods.view')
                     <a href="{{ route('timeslots.index') }}"
@@ -423,7 +443,7 @@
                             font-bold
                             text-[var(--color-text-muted)]
                         ">
-                                        إدارة الفترات
+                        إدارة الفترات
                     </div>
 
                     <a href="{{ route('trainer-time-slots.index') }}"
@@ -446,29 +466,39 @@
                     </a>
                 @endcan
 
-                @can('sports.view')
-                    <a href="{{ route('games.index') }}"
+
+                @can('players.view')
+                    <div
                         class="
-                        mb-1
-                        flex
-                        items-center
-                        gap-3
-                        rounded-xl
-                        px-4
-                        py-3
-                        text-sm
-                        text-[var(--color-text-muted)]
-                        transition
-                    {{ request()->routeIs('games.*')
-                        ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
-                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
-                    ">
+            mb-2
+            mt-6
+            px-3
+            text-[10px]
+            font-bold
+            text-[var(--color-text-muted)]
+        ">
+                        إدارة ألعاب اللاعبين
+                    </div>
+
+                    <a href="{{ route('player-games.index') }}"
+                        class="
+            mb-1
+            flex
+            items-center
+            gap-3
+            rounded-xl
+            px-4
+            py-3
+            text-sm
+            transition
+            {{ request()->routeIs('player-games.*')
+                ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
+        ">
                         <i class="fa-solid fa-dumbbell w-5 text-center"></i>
-                        <span>الرياضات</span>
+                        <span>ربط اللاعبين بالألعاب</span>
                     </a>
                 @endcan
-
-
                 @can('attendance.view')
                     <a href="#"
                         class="
@@ -514,6 +544,67 @@
                     </a>
                 @endcan
 
+                @can('internal_requests.view')
+                    <div
+                        class="
+            mb-2
+            mt-6
+            px-3
+            text-[10px]
+            font-bold
+            text-[var(--color-text-muted)]
+        ">
+                        الإدارة الداخلية
+                    </div>
+
+                    <a href="{{ route('internal-requests.index') }}"
+                        class="
+            mb-1
+            flex
+            items-center
+            gap-3
+            rounded-xl
+            px-4
+            py-3
+            text-sm
+            transition
+            {{ request()->routeIs('internal-requests.*')
+                ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
+        ">
+                        <i class="fa-solid fa-screwdriver-wrench w-5 text-center"></i>
+                        <span>طلبات الشراء والصيانة</span>
+                    </a>
+                @endcan
+
+                @can('financial_transactions.view')
+
+    <a
+        href="{{ route('financial-transactions.index') }}"
+        class="mb-1
+                        flex
+                        items-center
+                        gap-3
+                        rounded-xl
+                        px-4
+                        py-3
+                        text-sm
+                        text-[var(--color-text-muted)]
+                        transition
+        {{ request()->routeIs('financial-transactions.*')
+            ? 'bg-[#D46417] text-white'
+            : 'hover:bg-[var(--color-surface-hover)]' }}"
+    >
+
+        <i class="fa-solid fa-money-bill-transfer w-5 text-center"></i>
+
+        <span>
+            المعاملات المالية
+        </span>
+
+    </a>
+
+@endcan
 
                 {{-- التقارير --}}
 
@@ -596,10 +687,8 @@
 
 
                 @can('roles.manage')
-
-                <a
-                    href="{{route('roles.index')}}"
-                    class="
+                    <a href="{{ route('roles.index') }}"
+                        class="
                         mb-1
                         flex
                         items-center
@@ -612,15 +701,12 @@
                         transition
                     {{ request()->routeIs('roles.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
-                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]'
-                    }}
-                    "
-                >
-                    <i class="fa-solid fa-user-lock w-5 text-center"></i>
-                    <span>الأدوار والصلاحيات</span>
-                </a>
-
-            @endcan
+                        : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
+                    ">
+                        <i class="fa-solid fa-user-lock w-5 text-center"></i>
+                        <span>الأدوار والصلاحيات</span>
+                    </a>
+                @endcan
 
             </nav>
 
@@ -836,10 +922,10 @@
 
     <script>
         /*
-        |--------------------------------------------------------------------------
-        | Theme
-        |--------------------------------------------------------------------------
-        */
+                |--------------------------------------------------------------------------
+                | Theme
+                |--------------------------------------------------------------------------
+                */
 
         const themeToggle =
             document.getElementById('theme-toggle');
