@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -55,5 +57,21 @@ class User extends Authenticatable implements JWTSubject // 2. تطبيق الو
     {
         // يرجع أول دور مخصص للمستخدم (مثل 'trainer' أو 'player')
         return $this->getRoleNames()->first() ?? 'player';
+    }
+
+    public function player(): HasOne
+    {
+        return $this->hasOne(Player::class);
+    }
+    public function staff(): HasOne
+    {
+        return $this->hasOne(Staff::class);
+    }
+    public function internalRequests(): HasMany
+    {
+        return $this->hasMany(
+            InternalRequest::class,
+            'requested_by'
+        );
     }
 }

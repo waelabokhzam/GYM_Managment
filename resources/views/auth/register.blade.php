@@ -188,8 +188,8 @@
                 <input
                     type="text"
                     id="name"
-                    name="name"
-                    value="{{ old('name') }}"
+                    name="fullname"
+                    value="{{ old('fullname') }}"
                     placeholder="أدخل الاسم الكامل"
                     autocomplete="name"
                     required
@@ -216,7 +216,7 @@
 
             </div>
 
-            @error('name')
+            @error('fullname')
 
                 <p class="mt-1 text-xs text-red-400">
                     {{ $message }}

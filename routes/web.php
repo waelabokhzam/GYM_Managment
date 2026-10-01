@@ -1,37 +1,47 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\FinancialTransactionController;
+use App\Http\Controllers\Web\GameController;
+use App\Http\Controllers\Web\InternalRequestController;
+use App\Http\Controllers\Web\PlayerController;
+use App\Http\Controllers\Web\ReceiptController;
+use App\Http\Controllers\Web\RoleController;
+use App\Http\Controllers\Web\SubscriptionController;
+use App\Http\Controllers\Web\TimeSlotController;
+use App\Http\Controllers\Web\TrainerController;
+use App\Http\Controllers\Web\TrainerTimeSlotController;
+use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\PlayerGameController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+    return view('auth.login');
+});
 
 Route::middleware('guest')->group(function () {
 
-    Route::get('/register', [
-        AuthController::class,
-        'showRegister'
-    ])->name('register');
+    // Route::get('/register', [
+    //     AuthController::class,
+    //     'showRegister'
+    // ])->name('register');
 
-    Route::post('/register', [
-        AuthController::class,
-        'register'
-    ])->name('register');
+    // Route::post('/register', [
+    //     AuthController::class,
+    //     'register'
+    // ])->name('register');
 
     Route::get('/login', [
         AuthController::class,
-        'showLogin'
+        'showLogin',
     ])->name('login');
-
 
     Route::post('/login', [
         AuthController::class,
-        'login'
+        'login',
     ])->name('login.store');
 
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +62,36 @@ Route::middleware('auth')->group(function () {
 
     })->name('dashboard');
 
+    // Games
+
+    Route::resource('games', GameController::class);
+
+    // TimeSlots
+
+    Route::resource('timeslots', TimeSlotController::class);
+
+    Route::resource('players', PlayerController::class);
+    Route::resource('trainers', TrainerController::class);
+    Route::resource('receipts', ReceiptController::class);
+    // Logout
 
     Route::post('/logout', [
         AuthController::class,
-        'logout'
+        'logout',
     ])->name('logout');
 
+
+    Route::resource('subscriptions', SubscriptionController::class);
+
+    Route::resource('users', UserController::class);
+
+    Route::resource('roles', RoleController::class);
+    
+    Route::resource('trainer-time-slots',TrainerTimeSlotController::class);
+
+    Route::resource('player-games',PlayerGameController::class);
+
+    Route::resource('internal-requests',InternalRequestController::class);
+
+    Route::resource('financial-transactions',FinancialTransactionController::class);
 });
