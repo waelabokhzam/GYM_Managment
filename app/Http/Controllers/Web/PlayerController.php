@@ -8,8 +8,8 @@ use App\Http\Requests\Player\UpdatePlayerRequest;
 use App\Models\Player;
 use App\Services\Player\PlayerService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class PlayerController extends Controller
 {
@@ -19,21 +19,24 @@ class PlayerController extends Controller
     }
 
     /**
-     * عرض جميع اللاعبين
+     * عرض اللاعبين.
+     *
+     * Admin / Reception => جميع اللاعبين
+     * Player             => اللاعب نفسه فقط
      */
     public function index(): View
     {
         Gate::authorize('viewAny', Player::class);
 
-        $players = Player::with('user')
-            ->latest()
+        $players = $this->playerService
+            ->getPlayersForCurrentUser()
             ->paginate(15);
 
         return view('players.index', compact('players'));
     }
 
     /**
-     * عرض صفحة إنشاء لاعب
+     * عرض صفحة إنشاء لاعب.
      */
     public function create(): View
     {
@@ -43,10 +46,12 @@ class PlayerController extends Controller
     }
 
     /**
-     * تخزين لاعب جديد
+     * تخزين لاعب جديد.
      */
-    public function store(StorePlayerRequest $request): RedirectResponse
-    {
+    public function store(
+        StorePlayerRequest $request
+    ): RedirectResponse {
+
         Gate::authorize('create', Player::class);
 
         $player = $this->playerService->createPlayer(
@@ -67,7 +72,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * عرض بيانات لاعب
+     * عرض بيانات لاعب.
      */
     public function show(Player $player): View
     {
@@ -79,7 +84,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * عرض صفحة تعديل اللاعب
+     * عرض صفحة تعديل اللاعب.
      */
     public function edit(Player $player): View
     {
@@ -91,12 +96,13 @@ class PlayerController extends Controller
     }
 
     /**
-     * تحديث بيانات اللاعب
+     * تحديث بيانات اللاعب.
      */
     public function update(
         UpdatePlayerRequest $request,
         Player $player
     ): RedirectResponse {
+
         Gate::authorize('update', $player);
 
         $this->playerService->updatePlayer(
@@ -106,20 +112,28 @@ class PlayerController extends Controller
 
         return redirect()
             ->route('players.index')
-            ->with('success', 'تم تحديث بيانات اللاعب بنجاح.');
+            ->with(
+                'success',
+                'تم تحديث بيانات اللاعب بنجاح.'
+            );
     }
 
     /**
-     * حذف اللاعب
+     * حذف اللاعب.
      */
-    public function destroy(Player $player): RedirectResponse
-    {
+    public function destroy(
+        Player $player
+    ): RedirectResponse {
+
         Gate::authorize('delete', $player);
 
         $this->playerService->deletePlayer($player);
 
         return redirect()
             ->route('players.index')
-            ->with('success', 'تم حذف اللاعب بنجاح.');
+            ->with(
+                'success',
+                'تم حذف اللاعب بنجاح.'
+            );
     }
 }
