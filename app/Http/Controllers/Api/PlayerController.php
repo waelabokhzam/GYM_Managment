@@ -11,7 +11,7 @@ class PlayerController extends Controller
     /**
      * جلب بيانات اللاعب المسجل دخوله.
      */
-    public function me($id): JsonResponse
+    public function me(): JsonResponse
     {
         $user = auth('api')->user();
 
@@ -25,7 +25,7 @@ class PlayerController extends Controller
 
         // جلب اللاعب المرتبط بالمستخدم الحالي
         $player = Player::with('user')
-            ->where('id', $id)
+            ->where('user_id', $user->id)
             ->first();
 
         // المستخدم موجود ولكن لا يوجد له سجل لاعب

@@ -12,6 +12,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/refresh', [AuthController::class, 'refresh']);
 
-    Route::get('/auth/player/{id}',[PlayerController::class, 'me']);
+    Route::get('/auth/player',[PlayerController::class, 'me']);
     
 });
