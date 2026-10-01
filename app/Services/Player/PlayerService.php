@@ -4,9 +4,9 @@ namespace App\Services\Player;
 
 use App\Models\Player;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use RuntimeException;
 
 class PlayerService
 {
@@ -50,7 +50,88 @@ class PlayerService
     }
 
     /**
+     * جلب اللاعبين حسب صلاحية المستخدم الحالي.
+     *
+     * admin / reception => جميع اللاعبين
+     * player            => اللاعب نفسه فقط
+     * أي دور آخر         => لا يوجد نتائج
+     */
+    public function getPlayersForCurrentUser(): Builder
+    {
+        $user = auth()->user();
+
+        // في حال لم يكن المستخدم مسجل دخول
+        if (!$user) {
+            return Player::query()
+                ->whereRaw('1 = 0');
+        }
+
+        // Admin و Reception
+        // يستطيعان مشاهدة جميع اللاعبين
+        if ($user->hasAnyRole(['admin', 'reception'])) {
+            return Player::with('user')
+                ->latest();
+        }
+
+        // Player
+        // يستطيع مشاهدة بياناته فقط
+        if ($user->hasRole('player')) {
+            return Player::with('user')
+                ->where('user_id', $user->id)
+                ->latest();
+        }
+
+        // أي Role آخر
+        return Player::query()
+            ->whereRaw('1 = 0');
+    }
+
+    /**
+     * تحديث بيانات اللاعب.
+     */
+    public function updatePlayer(
+        Player $player,
+        array $data
+    ): Player {
+        return DB::transaction(function () use ($player, $data) {
+
+            // تحديث بيانات المستخدم
+            $player->user->update([
+                'fullname' => $data['fullname'],
+                'phone' => $data['phone'],
+            ]);
+
+            // تحديث بيانات اللاعب
+            $player->update([
+                'gender' => $data['gender'],
+                'height' => $data['height'] ?? null,
+                'weight' => $data['weight'] ?? null,
+                'occupation' => $data['occupation'] ?? null,
+                'health_status' => $data['health_status'] ?? null,
+            ]);
+
+            return $player->refresh();
+        });
+    }
+
+    /**
+     * حذف لاعب.
+     */
+    public function deletePlayer(Player $player): void
+    {
+        DB::transaction(function () use ($player) {
+
+            $user = $player->user;
+
+            $player->delete();
+
+            $user->delete();
+        });
+    }
+
+    /**
      * توليد username بالشكل:
+     *
      * gym_XXXXXX
      */
     private function generateUniqueUsername(): string
@@ -74,46 +155,10 @@ class PlayerService
 
         return $username;
     }
-    public function updatePlayer(
-        Player $player,
-        array $data
-    ): Player {
-        return DB::transaction(function () use ($player, $data) {
-
-            $player->user->update([
-                'fullname' => $data['fullname'],
-                'phone' => $data['phone'],
-            ]);
-
-            $player->update([
-                'gender' => $data['gender'],
-                'height' => $data['height'] ?? null,
-                'weight' => $data['weight'] ?? null,
-                'occupation' => $data['occupation'] ?? null,
-                'health_status' => $data['health_status'] ?? null,
-            ]);
-
-            return $player->refresh();
-        });
-    }
-
-    /**
-     * حذف لاعب
-     */
-    public function deletePlayer(Player $player): void
-    {
-        DB::transaction(function () use ($player) {
-
-            $user = $player->user;
-
-            $player->delete();
-
-            $user->delete();
-        });
-    }
 
     /**
      * توليد رقم لاعب بالشكل:
+     *
      * PL123456
      */
     private function generateUniqueNumber(): string
