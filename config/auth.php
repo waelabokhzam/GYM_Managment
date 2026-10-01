@@ -42,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+        'driver' => 'jwt', // <-- غير الدرايفر إلى jwt
+        'provider' => 'users',
+    ],
     ],
 
     /*
