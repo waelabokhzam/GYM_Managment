@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PlayerController;
+use App\Http\Controllers\Api\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 // مسار تسجيل الدخول (مفتوح)
@@ -13,5 +14,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/auth/refresh', [AuthController::class, 'refresh']);
 
     Route::get('/auth/player',[PlayerController::class, 'me']);
-    
+
+   Route::get('/player/subscriptions', [SubscriptionController::class, 'getPlayerSubscriptions']);
+
 });
