@@ -18,6 +18,6 @@ Route::middleware('auth:api')->group(function () {
 
    Route::get('/player/subscriptions', [SubscriptionController::class, 'getPlayerSubscriptions']);
 
-    Route::get('/auth/schedule/{day}',[ScheduleController::class, 'day']);
 
-});
+   });
+   Route::get('/auth/schedule/{day}',[ScheduleController::class, 'day']);
