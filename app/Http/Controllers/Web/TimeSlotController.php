@@ -24,9 +24,6 @@ class TimeSlotController extends Controller
         private DeleteTimeSlotService $deleteTimeSlotService
     ) {}
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $this->authorize('viewAny', TimeSlot::class);
@@ -34,9 +31,6 @@ class TimeSlotController extends Controller
         return $this->indexService->index($request);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $this->authorize('create', TimeSlot::class);
@@ -44,20 +38,19 @@ class TimeSlotController extends Controller
         return view('timeslot.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTimeSlotRequest $request)
     {
         $this->authorize('create', TimeSlot::class);
-        $this->createTimeSlotService->create($request->validated());
 
-        return redirect()->route('timeslots.index')->with('success', 'Time Slot created successfully.');
+        $this->createTimeSlotService->create(
+            $request->validated()
+        );
+
+        return redirect()
+            ->route('timeslots.index')
+            ->with('success', 'تم إنشاء الفترة بنجاح.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(TimeSlot $timeslot)
     {
         $this->authorize('view', $timeslot);
@@ -65,9 +58,6 @@ class TimeSlotController extends Controller
         return view('timeslot.show', compact('timeslot'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(TimeSlot $timeslot)
     {
         $this->authorize('update', $timeslot);
@@ -75,25 +65,30 @@ class TimeSlotController extends Controller
         return view('timeslot.edit', compact('timeslot'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTimeSlotRequest $request, TimeSlot $timeslot)
-    {
+    public function update(
+        UpdateTimeSlotRequest $request,
+        TimeSlot $timeslot
+    ) {
         $this->authorize('update', $timeslot);
-        $this->updateTimeSlotService->update($request->validated(), $timeslot);
 
-        return redirect()->route('timeslots.show', compact('timeslot'))->with('success', 'Time Slot updated successfully.');
+        $this->updateTimeSlotService->update(
+            $request->validated(),
+            $timeslot
+        );
+
+        return redirect()
+            ->route('timeslots.show', $timeslot)
+            ->with('success', 'تم تحديث الفترة بنجاح.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(TimeSlot $timeslot)
     {
         $this->authorize('delete', $timeslot);
+
         $this->deleteTimeSlotService->delete($timeslot);
 
-        return redirect()->route('timeslots.index')->with('success', 'Time Slot deleted successfully.');
+        return redirect()
+            ->route('timeslots.index')
+            ->with('success', 'تم حذف الفترة بنجاح.');
     }
 }
