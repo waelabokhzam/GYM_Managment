@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
 
     Route::resource('roles', RoleController::class);
-    
+
     Route::resource('trainer-time-slots',TrainerTimeSlotController::class);
 
     Route::resource('player-games',PlayerGameController::class);
@@ -96,4 +96,5 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('financial-transactions',FinancialTransactionController::class);
     Route::resource('trainer-game-time-slots',TrainerGameTimeSlotController::class);
+
 });
