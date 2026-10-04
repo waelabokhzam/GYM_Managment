@@ -13,6 +13,7 @@ use App\Http\Controllers\Web\TrainerController;
 use App\Http\Controllers\Web\TrainerTimeSlotController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\PlayerGameController;
+use App\Http\Controllers\Web\TrainerGameTimeSlotController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -94,4 +95,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('internal-requests',InternalRequestController::class);
 
     Route::resource('financial-transactions',FinancialTransactionController::class);
+    Route::resource('trainer-game-time-slots',TrainerGameTimeSlotController::class);
 });

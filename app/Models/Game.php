@@ -31,4 +31,20 @@ class Game extends Model
             'player_id'
         )->withTimestamps();
     }
+     public function timeSlots(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            TimeSlot::class,
+            'game_time_slot',
+            'game_id',
+            'time_slot_id'
+        )->withTimestamps();
+    }
+    public function trainerGameTimeSlots(): HasMany
+    {
+        return $this->hasMany(
+            TrainerGameTimeSlot::class
+        );
+    }
+
 }

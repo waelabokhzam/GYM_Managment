@@ -9,10 +9,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class TimeSlot extends Model
 {
     protected $fillable = [
+        'name',
         'start_time',
         'end_time',
         'gender_type',
+        'days',
     ];
+
+    protected $casts = [
+        'days' => 'array',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Trainers
+    |--------------------------------------------------------------------------
+    */
 
     public function trainerTimeSlots(): HasMany
     {
@@ -29,5 +41,34 @@ class TimeSlot extends Model
             'time_slot_id',
             'staff_id'
         )->withTimestamps();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Games
+    |--------------------------------------------------------------------------
+    */
+
+    public function games(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Game::class,
+            'game_time_slot',
+            'time_slot_id',
+            'game_id'
+        )->withTimestamps();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Trainer + Game Assignments
+    |--------------------------------------------------------------------------
+    */
+
+    public function trainerGameTimeSlots(): HasMany
+    {
+        return $this->hasMany(
+            TrainerGameTimeSlot::class
+        );
     }
 }
