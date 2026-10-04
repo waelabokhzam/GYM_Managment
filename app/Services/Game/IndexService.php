@@ -9,12 +9,19 @@ class IndexService
 {
     public function index(Request $request)
     {
-        $games = Game::query()
-            ->when($request->search, function ($q) use ($request) {
-                $q->where('name', 'LIKE', "%{$request->search}%");
-            })
+        return Game::query()
+            ->with('timeSlots')
+            ->when(
+                $request->search,
+                function ($q) use ($request) {
+                    $q->where(
+                        'name',
+                        'LIKE',
+                        "%{$request->search}%"
+                    );
+                }
+            )
+            ->latest()
             ->get();
-
-        return $games;
     }
 }

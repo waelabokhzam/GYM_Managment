@@ -446,24 +446,21 @@
                         إدارة الفترات
                     </div>
 
-                    <a href="{{ route('trainer-time-slots.index') }}"
-                        class="
-                            mb-1
-                            flex
-                            items-center
-                            gap-3
-                            rounded-xl
-                            px-4
-                            py-3
-                            text-sm
-                            transition
-                            {{ request()->routeIs('trainer-time-slots.*')
-                                ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
-                                : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
-                        ">
+                    
+                    <a href="{{ route('trainer-game-time-slots.index') }}"
+                        class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition
+                        {{ request()->routeIs('trainer-game-time-slots.*')
+                            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+                            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}">
+
                         <i class="fa-solid fa-user-clock w-5 text-center"></i>
-                        <span>ربط المدربين بالفترات</span>
+
+                        <span>
+                            تعيينات المدربين
+                        </span>
+
                     </a>
+
                 @endcan
 
 

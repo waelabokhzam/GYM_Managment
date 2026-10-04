@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Game\StoreGameRequest;
 use App\Http\Requests\Game\UpdateGameRequest;
 use App\Models\Game;
+use App\Models\TimeSlot;
 use App\Services\Game\CreateGameService;
 use App\Services\Game\DeleteGameService;
 use App\Services\Game\IndexService;
@@ -16,18 +17,21 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class GameController extends Controller
 {
     use AuthorizesRequests;
+
     public function __construct(
         private IndexService $indexService,
         private CreateGameService $createGameService,
         private UpdateGameService $updateGameService,
         private DeleteGameService $deleteGameService
     ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $this->authorize("viewAny", Game::class);
+        $this->authorize('viewAny', Game::class);
+
         $games = $this->indexService->index($request);
 
         return view('game.index', compact('games'));
@@ -38,8 +42,13 @@ class GameController extends Controller
      */
     public function create()
     {
-        $this->authorize("create", Game::class);
-        return view('game.create');
+        $this->authorize('create', Game::class);
+
+        $timeSlots = TimeSlot::query()
+            ->orderBy('start_time')
+            ->get();
+
+        return view('game.create', compact('timeSlots'));
     }
 
     /**
@@ -47,9 +56,15 @@ class GameController extends Controller
      */
     public function store(StoreGameRequest $request)
     {
-        $this->authorize("create", Game::class);
-        $this->createGameService->create($request->validated());
-        return redirect()->route('games.index')->with('success', 'Game created successfully.');
+        $this->authorize('create', Game::class);
+
+        $this->createGameService->create(
+            $request->validated()
+        );
+
+        return redirect()
+            ->route('games.index')
+            ->with('success', 'Game created successfully.');
     }
 
     /**
@@ -57,7 +72,10 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-        $this->authorize("view", $game);
+        $this->authorize('view', $game);
+
+        $game->load('timeSlots');
+
         return view('game.show', compact('game'));
     }
 
@@ -66,19 +84,37 @@ class GameController extends Controller
      */
     public function edit(Game $game)
     {
-        $this->authorize("update", $game);
-        return view('game.edit', compact('game'));
+        $this->authorize('update', $game);
+
+        $game->load('timeSlots');
+
+        $timeSlots = TimeSlot::query()
+            ->orderBy('start_time')
+            ->get();
+
+        return view(
+            'game.edit',
+            compact('game', 'timeSlots')
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGameRequest $request, Game $game)
-    {
-        $this->authorize("update", $game);
-        $game = $this->updateGameService->update($request->validated(), $game);
-        return redirect()->route('games.show', $game)->with('success', 'Game updated successfully.');
+    public function update(
+        UpdateGameRequest $request,
+        Game $game
+    ) {
+        $this->authorize('update', $game);
 
+        $game = $this->updateGameService->update(
+            $request->validated(),
+            $game
+        );
+
+        return redirect()
+            ->route('games.show', $game)
+            ->with('success', 'Game updated successfully.');
     }
 
     /**
@@ -86,8 +122,12 @@ class GameController extends Controller
      */
     public function destroy(Game $game)
     {
-        $this->authorize("delete", $game);
+        $this->authorize('delete', $game);
+
         $this->deleteGameService->delete($game);
-        return redirect()->route('games.index')->with('success', 'Game deleted successfully.');
+
+        return redirect()
+            ->route('games.index')
+            ->with('success', 'Game deleted successfully.');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PlayerController;
+use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,5 +17,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/auth/player',[PlayerController::class, 'me']);
 
    Route::get('/player/subscriptions', [SubscriptionController::class, 'getPlayerSubscriptions']);
+
+    Route::get('/auth/schedule/{day}',[ScheduleController::class, 'day']);
 
 });
