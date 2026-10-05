@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->text("description");
+            $table->enum('type', ['general_access', 'activity'])
+                ->default('activity'); // ⬅️ إضافة
             $table->timestamps();
         });
     }
