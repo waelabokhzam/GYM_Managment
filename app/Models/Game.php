@@ -9,7 +9,8 @@ class Game extends Model
 {
     protected $fillable = [
         "name",
-        "description"
+        "description",
+        "type",
     ];
 
     public function Receipts()
