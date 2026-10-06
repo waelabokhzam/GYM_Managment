@@ -37,6 +37,7 @@ class PlayerActivityController extends Controller
         */
 
         $games = $player->games()
+            ->where('type', 'activity')
             ->with([
                 'timeSlots' => function ($query) {
                     $query
