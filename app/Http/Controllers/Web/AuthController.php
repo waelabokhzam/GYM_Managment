@@ -138,9 +138,20 @@ class AuthController extends Controller
             // تجديد الجلسة بعد نجاح تسجيل الدخول
             $request->session()->regenerate();
 
-            return redirect()
+            if(Auth::user()->role === 'admin') {
+                
+                return redirect()
                 ->intended(route('dashboard'))
                 ->with('success', 'تم تسجيل الدخول بنجاح.');
+            } 
+            if(Auth::user()->role === 'reception'){
+                return redirect()->intended(route('subscriptions'))
+                    ->with('success', 'تم تسجيل الدخول بنجاح.');
+            }
+            if(Auth::user()->role === 'player'){
+                return redirect()->to('players')
+                    ->with('success', 'تم تسجيل الدخول بنجاح.');
+            }
         }
 
         // بيانات الدخول غير صحيحة

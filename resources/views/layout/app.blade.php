@@ -281,7 +281,7 @@
                 ">
                     الرئيسية
                 </div>
-
+                @can('')
                 <a href="{{ route('dashboard') }}"
                     class="
                     mb-1
@@ -305,7 +305,7 @@
                     </span>
 
                 </a>
-
+                @endcan
 
                 {{-- النادي --}}
 
@@ -446,7 +446,7 @@
                         إدارة الفترات
                     </div>
 
-                    
+
                     <a href="{{ route('trainer-game-time-slots.index') }}"
                         class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition
                         {{ request()->routeIs('trainer-game-time-slots.*')
@@ -520,7 +520,7 @@
 
 
                 @can('payments.view')
-                    <a href="#"
+                    <a href="{{route('receipts.index')}}"
                         class="
                         mb-1
                         flex
@@ -532,7 +532,7 @@
                         text-sm
                         text-[var(--color-text-muted)]
                         transition
-                    {{ request()->routeIs('payments.*')
+                    {{ request()->routeIs('receipts.*')
                         ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
                     ">

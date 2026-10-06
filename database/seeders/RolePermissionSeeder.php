@@ -183,6 +183,8 @@ class RolePermissionSeeder extends Seeder
             // Tranier
             'trainers.view',
 
+            'timeslots.view',
+
             // Reception Staff
             'reception.view',
             'reception.edit',
@@ -257,6 +259,8 @@ class RolePermissionSeeder extends Seeder
             'internal_requests.view',
             'internal_requests.create',
             'internal_requests.edit',
+
+            'timeslots.view',
         ]);
 
         /*
@@ -273,14 +277,14 @@ class RolePermissionSeeder extends Seeder
             // Subscriptions
             'subscriptions.view',
 
-            // Training Periods
-            'training_periods.view',
-
+            
             // Sports
             'sports.view',
 
             // Attendance
             'attendance.view',
+
+            'timeslots.view',
         ]);
 
         /*

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\FinancialTransactionController;
 use App\Http\Controllers\Web\GameController;
 use App\Http\Controllers\Web\InternalRequestController;
@@ -57,11 +58,9 @@ Route::middleware('auth')->group(function () {
 
     //  Dashboard
 
-    Route::get('/dashboard', function () {
-
-        return view('dashboard');
-
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'permission:reports.view'])
+    ->name('dashboard');
 
     // Games
 
