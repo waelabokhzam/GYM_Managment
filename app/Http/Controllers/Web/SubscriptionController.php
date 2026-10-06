@@ -19,9 +19,24 @@ class SubscriptionController extends Controller
 {
     Gate::authorize('viewAny', Subscription::class);
 
-    $subscriptions = Subscription::with('player.user', 'trainer.user') // ⬅️ تعديل
-        ->latest()
-        ->paginate(10);
+    $query = Subscription::query()
+        ->with('player.user')
+        ->latest();
+
+    $user = auth()->user();
+
+    /*
+    |--------------------------------------------------------------------------
+    | اللاعب يرى اشتراكاته فقط
+    |--------------------------------------------------------------------------
+    */
+    if ($user->hasRole('player')) {
+        $query->whereHas('player', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        });
+    }
+
+    $subscriptions = $query->paginate(10);
 
     return view('subscriptions.index', compact('subscriptions'));
 }
