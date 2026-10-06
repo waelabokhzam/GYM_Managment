@@ -16,23 +16,24 @@ class SubscriptionController extends Controller
     ) {}
 
     public function index()
-    {
-        Gate::authorize('viewAny', Subscription::class);
+{
+    Gate::authorize('viewAny', Subscription::class);
 
-        $subscriptions = Subscription::with('player.user')
-            ->latest()
-            ->paginate(10);
+    $subscriptions = Subscription::with('player.user', 'trainer.user') // ⬅️ تعديل
+        ->latest()
+        ->paginate(10);
 
-        return view('subscriptions.index', compact('subscriptions'));
-    }
+    return view('subscriptions.index', compact('subscriptions'));
+}
 
     public function create()
-    {
-        Gate::authorize('create', Subscription::class);
+   {
+    Gate::authorize('create', Subscription::class);
 
-        $players = Player::with('user')->get();
+    $players = Player::with('user')->get();
+    $trainers = \App\Models\Staff::where('role', 'trainer')->with('user')->get();
 
-        return view('subscriptions.create', compact('players'));
+    return view('subscriptions.create', compact('players', 'trainers'));
     }
 
     public function store(StoreSubscriptionRequest $request)
@@ -45,20 +46,23 @@ class SubscriptionController extends Controller
     }
 
     public function show(Subscription $subscription)
-    {
-        Gate::authorize('view', $subscription);
+{
+    Gate::authorize('view', $subscription);
 
-        return view('subscriptions.show', compact('subscription'));
-    }
+    $subscription->load('player.user', 'trainer.user'); // ⬅️ تعديل
+
+    return view('subscriptions.show', compact('subscription'));
+}
 
     public function edit(Subscription $subscription)
-    {
-        Gate::authorize('update', $subscription);
+{
+    Gate::authorize('update', $subscription);
 
-        $players = Player::with('user')->get();
+    $players = Player::with('user')->get();
+    $trainers = \App\Models\Staff::where('role', 'trainer')->with('user')->get(); // ⬅️ إضافة
 
-        return view('subscriptions.edit', compact('subscription', 'players'));
-    }
+    return view('subscriptions.edit', compact('subscription', 'players', 'trainers')); // ⬅️ تعديل
+}
 
     public function update(UpdateSubscriptionRequest $request, Subscription $subscription)
     {

@@ -9,6 +9,7 @@ class Subscription extends Model
 {
     protected $fillable = [
         'player_id',
+        'trainer_id',
         'sub_type',
         'registration_type',
         'start_date',
@@ -29,6 +30,11 @@ class Subscription extends Model
     public function player(): BelongsTo
     {
         return $this->belongsTo(Player::class);
+    }
+
+    public function trainer(): BelongsTo
+    {
+        return $this->belongsTo(Staff::class, 'trainer_id'); // ⬅️ تصحيح: Staff::class
     }
 
     public function receipts()
