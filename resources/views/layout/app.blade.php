@@ -35,7 +35,7 @@
     @stack('styles')
     <style>
 
-        /* 
+        /*
         Notification
         */
 
@@ -603,6 +603,21 @@
         ">
                         <i class="fa-solid fa-screwdriver-wrench w-5 text-center"></i>
                         <span>طلبات الشراء والصيانة</span>
+                    </a>
+                @endcan
+
+
+                {{-- الملاحظات والشكاوى --}}
+                @can('feedback.view')
+                    {{-- يمكنك إزالة شرط الـ can إذا لم تكن تستخدم Spatie Permissions للملاحظات --}}
+                    <a href="{{ route('feedback.index') }}"
+                        class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition
+        {{ request()->routeIs('feedback.*')
+            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}">
+
+                        <i class="fa-solid fa-comment-dots w-5 text-center"></i>
+                        <span>الملاحظات والشكاوى</span>
                     </a>
                 @endcan
 

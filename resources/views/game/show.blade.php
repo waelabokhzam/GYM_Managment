@@ -38,29 +38,28 @@
             class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-10">
 
             {{-- Game Header --}}
-            <div
-                class="flex flex-col gap-5 border-b border-[var(--color-border)] pb-7 sm:flex-row sm:items-center">
+<div class="flex flex-col gap-5 border-b border-[var(--color-border)] pb-7 sm:flex-row sm:items-center">
 
-                <div
-                    class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#D46417]/15 text-2xl text-[#D46417]">
+    @if($game->image)
+        <img src="{{ $game->image }}" alt="{{ $game->name }}"
+             class="h-20 w-20 shrink-0 rounded-2xl object-cover border border-[var(--color-border)] shadow-md">
+    @else
+        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#D46417]/15 text-2xl text-[#D46417]">
+            <i class="fa-solid fa-dumbbell"></i>
+        </div>
+    @endif
 
-                    <i class="fa-solid fa-dumbbell"></i>
+    <div>
+        <span class="text-xs text-[var(--color-text-muted)]">
+            لعبة رقم #{{ $game->id }}
+        </span>
 
-                </div>
+        <h2 class="mt-1 text-2xl font-extrabold">
+            {{ $game->name }}
+        </h2>
+    </div>
 
-                <div>
-
-                    <span class="text-xs text-[var(--color-text-muted)]">
-                        لعبة رقم #{{ $game->id }}
-                    </span>
-
-                    <h2 class="mt-1 text-2xl font-extrabold">
-                        {{ $game->name }}
-                    </h2>
-
-                </div>
-
-            </div>
+</div>
 
             {{-- Description --}}
             <div class="pt-7">

@@ -61,6 +61,11 @@ $items = [
         ? $subscription->end_date->diffInDays(now()) . ' يوم'
         : 'منتهي',
 ];
+
+// ⬅️ إضافة: المدرب بس لو الاشتراك خاص وله مدرب محدد
+if ($subscription->sub_type === 'special' && $subscription->trainer) {
+    $items['المدرب المسؤول'] = $subscription->trainer->user->fullname;
+}
 @endphp
 
 @foreach($items as $title=>$value)

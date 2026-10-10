@@ -123,6 +123,41 @@
 
                 </div>
 
+                {{-- Trainer (يظهر بس لما sub_type = special) --}}
+<div id="trainer-field" style="display: none;">
+
+    <label class="mb-2 block text-sm font-bold">
+        المدرب
+    </label>
+
+    <select
+        name="trainer_id"
+        class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] p-3">
+
+        <option value="">
+            اختر مدرب
+        </option>
+
+        @foreach($trainers as $trainer)
+
+            <option value="{{ $trainer->id }}"
+                @selected(old('trainer_id', $subscription->trainer_id) == $trainer->id)>
+
+                {{ $trainer->user->fullname }}
+
+            </option>
+
+        @endforeach
+
+    </select>
+
+    @error('trainer_id')
+        <p class="mt-1 text-sm text-red-500">
+            {{ $message }}
+        </p>
+    @enderror
+
+</div>
             </div>
 
 
@@ -150,5 +185,23 @@
     </div>
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const subTypeSelect = document.querySelector('select[name="sub_type"]');
+        const trainerField = document.getElementById('trainer-field');
+
+        function toggleTrainerField() {
+            if (subTypeSelect.value === 'special') {
+                trainerField.style.display = 'block';
+            } else {
+                trainerField.style.display = 'none';
+            }
+        }
+
+        toggleTrainerField();
+        subTypeSelect.addEventListener('change', toggleTrainerField);
+    });
+</script>
 
 @endsection
