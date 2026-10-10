@@ -117,10 +117,10 @@ Route::middleware('auth')->group(function () {
 
     // تحديث الحالة (PATCH)
     Route::patch('/{feedback}/status', [FeedbackController::class, 'updateStatus'])->name('updateStatus');
-    Route::resource('attendances', AttendanceController::class);
 
-    
+
     });
+    Route::resource('attendances', AttendanceController::class);
     Route::post(
         'attendances/{attendance}/checkout',
         [AttendanceController::class, 'checkout']
