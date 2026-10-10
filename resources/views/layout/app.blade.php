@@ -282,8 +282,8 @@
                     الرئيسية
                 </div>
                 @can('')
-                <a href="{{ route('dashboard') }}"
-                    class="
+                    <a href="{{ route('dashboard') }}"
+                        class="
                     mb-1
                     flex
                     items-center
@@ -298,13 +298,13 @@
                         : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}
                 ">
 
-                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                        <i class="fa-solid fa-chart-line w-5 text-center"></i>
 
-                    <span>
-                        لوحة التحكم
-                    </span>
+                        <span>
+                            لوحة التحكم
+                        </span>
 
-                </a>
+                    </a>
                 @endcan
 
                 {{-- النادي --}}
@@ -460,7 +460,6 @@
                         </span>
 
                     </a>
-
                 @endcan
 
 
@@ -520,7 +519,7 @@
 
 
                 @can('payments.view')
-                    <a href="{{route('receipts.index')}}"
+                    <a href="{{ route('receipts.index') }}"
                         class="
                         mb-1
                         flex
@@ -574,11 +573,24 @@
                     </a>
                 @endcan
 
-                @can('financial_transactions.view')
 
-    <a
-        href="{{ route('financial-transactions.index') }}"
-        class="mb-1
+                {{-- الملاحظات والشكاوى --}}
+                @can('feedback.view')
+                    {{-- يمكنك إزالة شرط الـ can إذا لم تكن تستخدم Spatie Permissions للملاحظات --}}
+                    <a href="{{ route('feedback.index') }}"
+                        class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition
+        {{ request()->routeIs('feedback.*')
+            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}">
+
+                        <i class="fa-solid fa-comment-dots w-5 text-center"></i>
+                        <span>الملاحظات والشكاوى</span>
+                    </a>
+                @endcan
+
+                @can('financial_transactions.view')
+                    <a href="{{ route('financial-transactions.index') }}"
+                        class="mb-1
                         flex
                         items-center
                         gap-3
@@ -590,18 +602,16 @@
                         transition
         {{ request()->routeIs('financial-transactions.*')
             ? 'bg-[#D46417] text-white'
-            : 'hover:bg-[var(--color-surface-hover)]' }}"
-    >
+            : 'hover:bg-[var(--color-surface-hover)]' }}">
 
-        <i class="fa-solid fa-money-bill-transfer w-5 text-center"></i>
+                        <i class="fa-solid fa-money-bill-transfer w-5 text-center"></i>
 
-        <span>
-            المعاملات المالية
-        </span>
+                        <span>
+                            المعاملات المالية
+                        </span>
 
-    </a>
-
-@endcan
+                    </a>
+                @endcan
 
                 {{-- التقارير --}}
 
@@ -919,10 +929,10 @@
 
     <script>
         /*
-                |--------------------------------------------------------------------------
-                | Theme
-                |--------------------------------------------------------------------------
-                */
+                    |--------------------------------------------------------------------------
+                    | Theme
+                    |--------------------------------------------------------------------------
+                    */
 
         const themeToggle =
             document.getElementById('theme-toggle');

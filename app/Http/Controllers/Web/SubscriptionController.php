@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
         ->with('player.user')
         ->latest();
 
-    $user = auth()->user();
+    $user = request()->user();
 
     /*
     |--------------------------------------------------------------------------

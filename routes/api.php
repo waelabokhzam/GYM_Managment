@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\NutritionProgramController;
 use App\Http\Controllers\Api\PlayerController;
 use App\Http\Controllers\Api\ScheduleController;
@@ -37,5 +38,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/players/{playerId}/nutrition-program', [NutritionProgramController::class, 'show']);
     Route::put('/players/{playerId}/nutrition-program', [NutritionProgramController::class, 'save']);
 
+    Route::post('/feedbacks', [FeedbackController::class, 'store']);
     });
 
