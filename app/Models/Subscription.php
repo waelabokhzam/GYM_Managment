@@ -16,6 +16,7 @@ class Subscription extends Model
         'end_date',
         'status',
         'amount',
+        'expiry_notification_sent_at',
     ];
 
     protected function casts(): array
@@ -24,6 +25,7 @@ class Subscription extends Model
             'start_date' => 'date',
             'end_date' => 'date',
             'amount' => 'decimal:2',
+            'expiry_notification_sent_at' => 'datetime',
         ];
     }
 

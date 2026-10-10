@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Web\AttendanceController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\FeedbackController ;
 use App\Http\Controllers\Web\FinancialTransactionController;
 use App\Http\Controllers\Web\GameController;
 use App\Http\Controllers\Web\InternalRequestController;
+use App\Http\Controllers\Web\NotificationController;
 use App\Http\Controllers\Web\PlayerController;
 use App\Http\Controllers\Web\ReceiptController;
 use App\Http\Controllers\Web\RoleController;
@@ -57,6 +59,15 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
+    Route::post('/notifications/{notification}/open', [
+    NotificationController::class,
+    'open',
+    ])->name('notifications.open');
+
+    Route::post('/notifications/read-all', [
+        NotificationController::class,
+        'markAllAsRead',
+    ])->name('notifications.read-all');
     //  Dashboard
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -106,6 +117,14 @@ Route::middleware('auth')->group(function () {
 
     // تحديث الحالة (PATCH)
     Route::patch('/{feedback}/status', [FeedbackController::class, 'updateStatus'])->name('updateStatus');
-});
+    Route::resource('attendances', AttendanceController::class);
+
+    
+    });
+    Route::post(
+        'attendances/{attendance}/checkout',
+        [AttendanceController::class, 'checkout']
+    )
+        ->name('attendances.checkout');
 
     });

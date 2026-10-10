@@ -3,15 +3,16 @@
 namespace App\Services\Subscription;
 
 use App\Models\Subscription;
-use App\Models\FinancialTransaction;
+use App\Notifications\SubscriptionCreatedNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class SubscriptionService
 {
     public function create(array $data): Subscription
-{
-    return DB::transaction(function () use ($data) {
+    {
+        // إنشاء الاشتراك ضمن معاملة قاعدة البيانات
+        $subscription = DB::transaction(function () use ($data) {
 
         $today = Carbon::today();
 
@@ -26,9 +27,12 @@ class SubscriptionService
             'special' => 30,
         };
 
-        $lastSubscription = Subscription::where('player_id', $data['player_id'])
-            ->latest('end_date')
-            ->first();
+            $lastSubscription = Subscription::where(
+                'player_id',
+                $data['player_id']
+            )
+                ->latest('end_date')
+                ->first();
 
         if (
             $data['registration_type'] === 'renew'
@@ -42,59 +46,45 @@ class SubscriptionService
 
         $endDate = $startDate->copy()->addDays($duration);
 
-        /*
-        |--------------------------------------------------------------------------
-        | إنشاء الاشتراك
-        |--------------------------------------------------------------------------
-        */
+            $subscription = Subscription::create([
+                'player_id' => $data['player_id'],
+                'sub_type' => $data['sub_type'],
+                'registration_type' => $data['registration_type'],
+                'amount' => $data['amount'],
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'status' => 'active',
+            ]);
 
-        $subscription = Subscription::create([
-            'player_id' => $data['player_id'],
-            'trainer_id' => $data['sub_type'] === 'special' ? ($data['trainer_id'] ?? null) : null, // ⬅️ إضافة
-            'sub_type' => $data['sub_type'],
-            'registration_type' => $data['registration_type'],
-            'amount' => $data['amount'],
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'status' => 'active',
-        ]);
+            // تحميل اللاعب وحسابه
+            $subscription->load('player.user');
 
-        /*
-        |--------------------------------------------------------------------------
-        | جلب اسم اللاعب
-        |--------------------------------------------------------------------------
-        */
+            // إعادة الاشتراك ليتم استخدامه بعد نجاح المعاملة
+            return $subscription;
+        });
 
-        $subscription->load('player.user');
+        // إرسال الإشعار بعد نجاح حفظ الاشتراك
+        $playerUser = $subscription->player?->user;
 
-        $unique_number = $subscription->player->unique_number;
-
-        /*
-        |--------------------------------------------------------------------------
-        | إنشاء المعاملة المالية
-        |--------------------------------------------------------------------------
-        */
-
-        FinancialTransaction::create([
-            'transaction_type' => 'income',
-            'amount' => $data['amount'],
-            'description' => 'دفع اشتراك اللاعب: ' . $unique_number,
-            'approved_by' => auth()->id(),
-        ]);
+        if ($playerUser) {
+            $playerUser->notify(
+                new SubscriptionCreatedNotification($subscription)
+            );
+        }
 
         return $subscription;
-    });
-}
+    }
 
-    public function update(Subscription $subscription, array $data): bool
-{
-    return $subscription->update([
-        'sub_type' => $data['sub_type'],
-        'trainer_id' => $data['sub_type'] === 'special' ? ($data['trainer_id'] ?? null) : null, // ⬅️ إضافة
-        'amount' => $data['amount'],
-        'status' => $data['status'],
-    ]);
-}
+    public function update(
+        Subscription $subscription,
+        array $data
+    ): bool {
+        return $subscription->update([
+            'sub_type' => $data['sub_type'],
+            'amount' => $data['amount'],
+            'status' => $data['status'],
+        ]);
+    }
 
     public function delete(Subscription $subscription): bool
     {

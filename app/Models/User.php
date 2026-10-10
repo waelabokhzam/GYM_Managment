@@ -74,4 +74,8 @@ class User extends Authenticatable implements JWTSubject // 2. تطبيق الو
             'requested_by'
         );
     }
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

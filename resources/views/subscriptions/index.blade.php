@@ -155,7 +155,7 @@
                         <td class="px-6 py-4">
 
                             <span class="font-bold text-[#D46417]">
-                                {{ number_format($subscription->amount, 2) }} $
+                                {{ $subscription->amount }} SYP
                             </span>
 
                         </td>

@@ -85,6 +85,7 @@ class RolePermissionSeeder extends Seeder
             'attendance.view',
             'attendance.create',
             'attendance.edit',
+            'attendance.checkout',
 
             // Reports
             'reports.view',
@@ -211,6 +212,7 @@ class RolePermissionSeeder extends Seeder
             // Attendance
             'attendance.view',
             'attendance.create',
+            'attendance.checkout',
 
             // Reports
             'reports.view',
