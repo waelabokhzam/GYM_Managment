@@ -150,7 +150,7 @@
                             class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] p-3 pl-16 outline-none transition focus:border-[#D46417] focus:ring-2 focus:ring-[#D46417]/10">
 
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-[var(--color-text-muted)]">
-                            $
+                            SYP
                         </span>
 
                     </div>

@@ -9,15 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->decimal('amount', 10)
-                ->after('registration_type');
+            $table->timestamp('expiry_notification_sent_at')
+                ->nullable()
+                ->after('end_date');
         });
     }
 
     public function down(): void
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->dropColumn('amount');
+            $table->dropColumn('expiry_notification_sent_at');
         });
     }
 };

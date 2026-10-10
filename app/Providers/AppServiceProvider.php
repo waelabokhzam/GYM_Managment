@@ -1,6 +1,7 @@
 <?php
 namespace App\Providers;
 
+use App\Models\Attendance;
 use App\Models\FinancialTransaction;
 use App\Models\InternalRequest;
 use App\Models\Player;
@@ -9,6 +10,7 @@ use App\Models\Staff;
 use App\Models\Subscription;
 use App\Models\TrainerTimeSlot;
 use App\Models\User;
+use App\Policies\AttendancePolicy;
 use App\Policies\FinancialTransaction\FinancialTransactionPolicy;
 use App\Policies\InternalRequests\InternalRequestPolicy;
 use App\Policies\Player\PlayerPolicy;
@@ -46,5 +48,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(PlayerGame::class, PlayerGamePolicy::class);
         Gate::policy(InternalRequest::class, InternalRequestPolicy::class);
         Gate::policy(FinancialTransaction::class, FinancialTransactionPolicy::class);
+        Gate::policy(Attendance::class, AttendancePolicy::class);
     }
 }
