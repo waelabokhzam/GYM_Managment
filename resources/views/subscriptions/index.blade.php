@@ -75,7 +75,7 @@
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الانتهاء</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الحالة</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الإجراءات</th>
-                        
+
                     </tr>
 
                 </thead>
@@ -137,12 +137,12 @@
                         <td class="px-6 py-4">
 
                             <span class="font-bold text-[#D46417]">
-                                {{ number_format($subscription->amount, 2) }} $
+                                {{ $subscription->amount }} SYP
                             </span>
 
                         </td>
 
-                        
+
 
                         {{-- Dates --}}
                         <td class="px-6 py-4 text-sm">{{ $subscription->start_date->format('Y-m-d') }}</td>
