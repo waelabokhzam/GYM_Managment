@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('gender_type', ['women_only', 'mixed']);
             $table->timestamps();
         });
-    }
+    } 
 
     /**
      * Reverse the migrations.

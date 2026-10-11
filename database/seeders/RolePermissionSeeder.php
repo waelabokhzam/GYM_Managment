@@ -111,6 +111,10 @@ class RolePermissionSeeder extends Seeder
             'financial_transactions.create',
             'financial_transactions.edit',
             'financial_transactions.delete',
+
+            //Feedback
+            'feedback.view',
+            'feedback.manage',
         ];
 
         /*
@@ -217,7 +221,7 @@ class RolePermissionSeeder extends Seeder
             'internal_requests.view',
             'internal_requests.create',
             'internal_requests.edit',
-            
+
             //FinancialTransactions
             'financial_transactions.view',
             'financial_transactions.create',
@@ -279,7 +283,7 @@ class RolePermissionSeeder extends Seeder
             // Subscriptions
             'subscriptions.view',
 
-            
+
             // Sports
             'sports.view',
 

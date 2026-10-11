@@ -8,23 +8,24 @@ use App\Notifications\GameNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class CreateGameService
 {
     public function create(array $data)
     {
-        $timeSlotIds = $data['time_slots'] ?? [];
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
+        $data['image'] = $data['image']->store('games', 'public');
+    }
 
-        unset($data['time_slots']);
+    $timeSlotIds = $data['time_slots'] ?? [];
+    unset($data['time_slots']);
 
-        $game = DB::transaction(function () use ($data, $timeSlotIds) {
-
-            $game = Game::create($data);
-
-            $game->timeSlots()->sync($timeSlotIds);
-
-            return $game;
-        });
+    $game = DB::transaction(function () use ($data, $timeSlotIds) {
+        $game = Game::create($data);
+        $game->timeSlots()->sync($timeSlotIds);
+        return $game;
+    });
 
         $users = User::where('id', '!=', Auth::id())->get();
 

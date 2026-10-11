@@ -7,19 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSubscriptionRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -33,11 +25,12 @@ class StoreSubscriptionRequest extends FormRequest
                 'min:0.01',
                 'max:99999999.99'
             ],
+            // ⬅️ إضافة: مطلوبة بس لما sub_type = special
+            'trainer_id' => ['required_if:sub_type,special', 'nullable', 'exists:staff,id'],
         ];
-    
     }
 
-     public function attributes(): array
+    public function attributes(): array
     {
         return [
             'player_id' => 'اللاعب',
@@ -45,6 +38,7 @@ class StoreSubscriptionRequest extends FormRequest
             'registration_type' => 'نوع التسجيل',
             'start_date' => 'تاريخ البداية',
             'amount' => 'مبلغ الاشتراك',
+            'trainer_id' => 'المدرب', // ⬅️ إضافة
         ];
     }
 }

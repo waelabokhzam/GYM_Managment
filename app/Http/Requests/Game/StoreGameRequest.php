@@ -38,6 +38,8 @@ class StoreGameRequest extends FormRequest
                 'integer',
                 'exists:time_slots,id',
             ],
+
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 }

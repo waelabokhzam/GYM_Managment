@@ -14,18 +14,18 @@ class SubscriptionService
         // إنشاء الاشتراك ضمن معاملة قاعدة البيانات
         $subscription = DB::transaction(function () use ($data) {
 
-            $today = Carbon::today();
+        $today = Carbon::today();
 
-            $requestedDate = isset($data['start_date'])
-                ? Carbon::parse($data['start_date'])
-                : $today;
+        $requestedDate = isset($data['start_date'])
+            ? Carbon::parse($data['start_date'])
+            : $today;
 
-            $duration = match ($data['sub_type']) {
-                'daily' => 1,
-                'monthly' => 30,
-                'offers' => 30,
-                'special' => 30,
-            };
+        $duration = match ($data['sub_type']) {
+            'daily' => 1,
+            'monthly' => 30,
+            'offers' => 30,
+            'special' => 30,
+        };
 
             $lastSubscription = Subscription::where(
                 'player_id',
@@ -34,17 +34,17 @@ class SubscriptionService
                 ->latest('end_date')
                 ->first();
 
-            if (
-                $data['registration_type'] === 'renew'
-                && $lastSubscription
-                && $lastSubscription->end_date->greaterThan($today)
-            ) {
-                $startDate = $lastSubscription->end_date->copy();
-            } else {
-                $startDate = $requestedDate;
-            }
+        if (
+            $data['registration_type'] === 'renew'
+            && $lastSubscription
+            && $lastSubscription->end_date->greaterThan($today)
+        ) {
+            $startDate = $lastSubscription->end_date->copy();
+        } else {
+            $startDate = $requestedDate;
+        }
 
-            $endDate = $startDate->copy()->addDays($duration);
+        $endDate = $startDate->copy()->addDays($duration);
 
             $subscription = Subscription::create([
                 'player_id' => $data['player_id'],

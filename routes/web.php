@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\AttendanceController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\DashboardController;
+use App\Http\Controllers\Web\FeedbackController ;
 use App\Http\Controllers\Web\FinancialTransactionController;
 use App\Http\Controllers\Web\GameController;
 use App\Http\Controllers\Web\InternalRequestController;
@@ -107,12 +108,23 @@ Route::middleware('auth')->group(function () {
     Route::resource('financial-transactions',FinancialTransactionController::class);
     Route::resource('trainer-game-time-slots',TrainerGameTimeSlotController::class);
 
-    Route::resource('attendances', AttendanceController::class);
+    Route::prefix('feedback')->name('feedback.')->group(function () {
+    // قائمة الملاحظات
+    Route::get('/', [FeedbackController::class, 'index'])->name('index');
 
+    // صفحة عرض الملاحظة المفصلة (Show)
+    Route::get('/{feedback}', [FeedbackController::class, 'show'])->name('show');
+
+    // تحديث الحالة (PATCH)
+    Route::patch('/{feedback}/status', [FeedbackController::class, 'updateStatus'])->name('updateStatus');
+
+
+    });
+    Route::resource('attendances', AttendanceController::class);
     Route::post(
         'attendances/{attendance}/checkout',
         [AttendanceController::class, 'checkout']
     )
         ->name('attendances.checkout');
 
-});
+    });

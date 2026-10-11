@@ -75,6 +75,7 @@
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الانتهاء</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الحالة</th>
                         <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">الإجراءات</th>
+                        <th class="px-6 py-4 text-xs font-bold text-[var(--color-text-muted)]">المدرب</th>
 
                     </tr>
 
@@ -132,6 +133,23 @@
                             </span>
 
                         </td>
+
+                        {{-- Trainer --}}
+<td class="px-6 py-4">
+
+    @if($subscription->sub_type === 'special' && $subscription->trainer)
+
+        <span class="text-sm font-medium">
+            {{ $subscription->trainer->user->fullname }}
+        </span>
+
+    @else
+
+        <span class="text-sm text-[var(--color-text-muted)]">—</span>
+
+    @endif
+
+</td>
 
                         {{-- Amount --}}
                         <td class="px-6 py-4">
@@ -206,7 +224,7 @@
                     @empty
 
                     <tr>
-                        <td colspan="8" class="px-6 py-16 text-center">
+                        <td colspan="9" class="px-6 py-16 text-center">
 
                             <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#D46417]/10 text-2xl text-[#D46417]">
                                 <i class="fa-solid fa-id-card"></i>

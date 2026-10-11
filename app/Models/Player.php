@@ -14,6 +14,7 @@ class Player extends Model
 
     protected $fillable = [
         'user_id',
+        'private_trainer_id',
         'unique_number',
         'gender',
         'height',
@@ -52,4 +53,15 @@ class Player extends Model
             'game_id'
         )->withTimestamps();
     }
+
+    public function trainingPrograms(): HasMany
+{
+    return $this->hasMany(TrainingProgram::class);
+}
+
+public function nutritionPrograms(): HasMany
+{
+    return $this->hasMany(NutritionProgram::class);
+}
+
 }

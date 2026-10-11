@@ -67,4 +67,14 @@ class Staff extends Model
             'staff_id'
         );
     }
+
+    public function trainingPrograms(): HasMany
+{
+    return $this->hasMany(TrainingProgram::class, 'coach_id');
+}
+
+public function nutritionPrograms(): HasMany
+{
+    return $this->hasMany(NutritionProgram::class, 'coach_id');
+}
 }

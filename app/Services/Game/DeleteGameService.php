@@ -8,17 +8,21 @@ use App\Notifications\GameNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteGameService
 {
     public function delete(Game $game)
     {
         DB::transaction(function () use ($game) {
+        // حذف الصورة من السيرفر
+        if ($game->getRawOriginal('image')) {
+            Storage::disk('public')->delete($game->getRawOriginal('image'));
+        }
 
-            $game->timeSlots()->detach();
-
-            $game->delete();
-        });
+        $game->timeSlots()->detach();
+        $game->delete();
+    });
 
         $users = User::where('id', '!=', Auth::id())->get();
 

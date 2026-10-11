@@ -28,6 +28,7 @@
         {{-- Form --}}
         <form method="POST"
             action="{{ route('games.store') }}"
+            enctype="multipart/form-data"
             class="space-y-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 sm:p-7">
 
             @csrf
@@ -57,6 +58,25 @@
                     </p>
                 @enderror
             </div>
+
+            <div>
+        <label for="image" class="mb-2 block text-sm font-bold">
+            صورة اللعبة / الكلاس
+        </label>
+
+        <input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm text-[var(--color-text)] file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#D46417] file:text-white hover:file:bg-[#b95714] cursor-pointer outline-none transition">
+
+        @error('image')
+            <p class="mt-2 text-xs text-red-400">
+                {{ $message }}
+            </p>
+        @enderror
+    </div>
 
             {{-- Description --}}
             <div>

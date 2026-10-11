@@ -8,25 +8,28 @@ use App\Notifications\GameNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateGameService
 {
     public function update(array $data, Game $game)
     {
-        $timeSlotIds = $data['time_slots'] ?? [];
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
+        if ($game->getRawOriginal('image')) {
+            Storage::disk('public')->delete($game->getRawOriginal('image'));
+        }
+        $data['image'] = $data['image']->store('games', 'public');
+    } else {
+        unset($data['image']); // إذا لم يُرفع شيء، نحافظ على القديمة
+    }
 
-        unset($data['time_slots']);
+    $timeSlotIds = $data['time_slots'] ?? [];
+    unset($data['time_slots']);
 
-        DB::transaction(function () use (
-            $data,
-            $timeSlotIds,
-            $game
-        ) {
-
-            $game->update($data);
-
-            $game->timeSlots()->sync($timeSlotIds);
-        });
+    DB::transaction(function () use ($data, $timeSlotIds, $game) {
+        $game->update($data);
+        $game->timeSlots()->sync($timeSlotIds);
+    });
 
         $users = User::where('id', '!=', Auth::id())->get();
 

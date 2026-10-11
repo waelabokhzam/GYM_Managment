@@ -44,7 +44,11 @@ class AuthController extends Controller
                 'username' => $user->username ,
                 'phone' => $user->phone,
                 'role' => $user->role,
-            ],
+                'staff_id' => $user->staff ? (string) $user->staff->id : null,
+                 'player_id' => $user->player
+            ? (string) $user->player->id
+            : null,
+                ],
             'token' => $token,
         ], 200);
     }
@@ -61,7 +65,11 @@ class AuthController extends Controller
                 'username' => $user->username ?? $user->email,
                 'phone' => $user->phone,
                 'role' => $user->role,
-            ]
+                'staff_id' => $user->staff ? (string) $user->staff->id : null,
+                'player_id' => $user->player
+            ? (string) $user->player->id
+            : null,
+                ]
         ], 200);
     }
 
