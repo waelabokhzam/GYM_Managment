@@ -26,17 +26,24 @@ class SubscriptionCreatedNotification extends Notification
     {
         $subscription = $this->subscription;
 
+        $playerName = $subscription->player?->user?->fullname
+            ?? 'لاعب غير معروف';
+
+        $creatorName = $subscription->createdBy?->fullname
+            ?? 'غير محدد';
+
         return [
             'type' => 'subscription_created',
+
             'title' => 'تم إنشاء اشتراك جديد',
-            'message' => $subscription->registration_type === 'renew'
-                ? 'تم تجديد اشتراكك بنجاح.'
-                : 'تم إنشاء اشتراكك بنجاح.',
+
+            'message' => "اللاعب: {$playerName} | الموظف الذي أنشأ الاشتراك: {$creatorName}",
+
+            'player_id' => $subscription->player_id,
+
             'subscription_id' => $subscription->id,
-            'sub_type' => $subscription->sub_type,
-            'start_date' => $subscription->start_date?->toDateString(),
-            'end_date' => $subscription->end_date?->toDateString(),
-            'url' => route('subscriptions.show', $subscription),
+
+            'url' => route('players.show', $subscription->player_id),
         ];
     }
 

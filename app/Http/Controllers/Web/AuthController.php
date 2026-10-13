@@ -145,7 +145,7 @@ class AuthController extends Controller
                 ->with('success', 'تم تسجيل الدخول بنجاح.');
             }
             if(Auth::user()->role === 'reception'){
-                return redirect()->intended(route('subscriptions.index'))
+                return  redirect()->to('subscriptions')
                     ->with('success', 'تم تسجيل الدخول بنجاح.');
             }
             if(Auth::user()->role === 'player'){
