@@ -42,7 +42,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        
+
         $validated = $request->validate([
             'fullname' => [
                 'required',
@@ -139,13 +139,13 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if(Auth::user()->role === 'admin') {
-                
+
                 return redirect()
                 ->intended(route('dashboard'))
                 ->with('success', 'تم تسجيل الدخول بنجاح.');
-            } 
+            }
             if(Auth::user()->role === 'reception'){
-                return redirect()->intended(route('subscriptions'))
+                return redirect()->intended(route('subscriptions.index'))
                     ->with('success', 'تم تسجيل الدخول بنجاح.');
             }
             if(Auth::user()->role === 'player'){

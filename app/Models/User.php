@@ -78,4 +78,10 @@ class User extends Authenticatable implements JWTSubject // 2. تطبيق الو
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function deviceTokens(): HasMany
+{
+    return $this->hasMany(DeviceToken::class);
+}
+
 }

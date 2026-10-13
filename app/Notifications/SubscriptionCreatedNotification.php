@@ -16,7 +16,10 @@ class SubscriptionCreatedNotification extends Notification
 
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return [
+        'database',
+        \App\Notifications\Channels\FcmChannel::class,
+    ];
     }
 
     public function toArray(object $notifiable): array
@@ -36,4 +39,21 @@ class SubscriptionCreatedNotification extends Notification
             'url' => route('subscriptions.show', $subscription),
         ];
     }
+
+
+public function toFcm(object $notifiable): array
+{
+    $data = $this->toArray($notifiable);
+
+    return [
+        'title' => $data['title'],
+        'body' => $data['message'],
+        'data' => [
+            'type' => $data['type'],
+            'subscription_id' => (string) $this->subscription->id,
+        ],
+    ];
+}
+
+
 }

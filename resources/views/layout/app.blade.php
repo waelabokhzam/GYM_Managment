@@ -748,6 +748,20 @@
                     </a>
                 @endcan
 
+
+@can('social_links.manage')
+    <a href="{{ route('social-links.index') }}"
+        class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition
+        {{ request()->routeIs('social-links.*')
+            ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20'
+            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}">
+
+        <i class="fa-solid fa-share-nodes w-5 text-center"></i>
+
+        <span>روابط التواصل الاجتماعي</span>
+    </a>
+@endcan
+
             </nav>
 
 
