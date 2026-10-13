@@ -47,7 +47,7 @@ $items = [
         ? 'أول مرة'
         : 'تجديد',
 
-    'مبلغ الاشتراك' => number_format($subscription->amount, 2) . ' $',
+    'مبلغ الاشتراك' => $subscription->amount . ' SYP',
 
     'الحالة' => $subscription->status === 'active'
         ? 'نشط'
@@ -57,9 +57,9 @@ $items = [
 
     'تاريخ النهاية' => $subscription->end_date->format('Y-m-d'),
 
-    'المدة المتبقية' => $subscription->end_date->isFuture()
-        ? $subscription->end_date->diffInDays(now()) . ' يوم'
-        : 'منتهي',
+    'المدة المتبقية' => $subscription->end_date->isFuture() 
+    ? abs((int)$subscription->end_date->diffInDays(now())) . ' يوم' 
+    : 'منتهي',
 ];
 
 // ⬅️ إضافة: المدرب بس لو الاشتراك خاص وله مدرب محدد

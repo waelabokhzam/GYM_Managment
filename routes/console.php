@@ -19,3 +19,7 @@ Schedule::call(function () {
 Schedule::command('subscriptions:notify-expiring')
     ->everyMinute()
     ->withoutOverlapping();
+
+Schedule::command('subscriptions:notify-balance-reminders')
+    ->everyMinute()
+    ->withoutOverlapping();

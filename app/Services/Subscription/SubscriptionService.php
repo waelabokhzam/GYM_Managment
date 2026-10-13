@@ -3,6 +3,7 @@
 namespace App\Services\Subscription;
 
 use App\Models\Subscription;
+use App\Models\User;
 use App\Notifications\SubscriptionCreatedNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class SubscriptionService
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'status' => 'active',
+                'created_by_user_id' => auth()->id(),
             ]);
 
             // تحميل اللاعب وحسابه
@@ -63,14 +65,27 @@ class SubscriptionService
             return $subscription;
         });
 
-        // إرسال الإشعار بعد نجاح حفظ الاشتراك
-        $playerUser = $subscription->player?->user;
+        $subscription->loadMissing([
+    'player.user',
+    'createdBy',
+]);
 
-        if ($playerUser) {
-            $playerUser->notify(
-                new SubscriptionCreatedNotification($subscription)
-            );
-        }
+$notification = new SubscriptionCreatedNotification($subscription);
+
+// إشعار اللاعب
+$playerUser = $subscription->player?->user;
+
+if ($playerUser) {
+    $playerUser->notify($notification);
+}
+
+// إشعار الأدمن والاستقبال
+User::role(['admin', 'reception'])
+    ->where('id', '!=', auth()->id())
+    ->get()
+    ->each(function (User $user) use ($notification) {
+        $user->notify($notification);
+    });
 
         return $subscription;
     }
