@@ -48,7 +48,10 @@ class NotifyExpiringSubscriptions extends Command
                             return;
                         }
 
-                        $locked->loadMissing(['player.user']);
+                        $locked->loadMissing([
+    'player.user',
+    'createdBy',
+]);
 
                         $playerUser = $locked->player?->user;
 

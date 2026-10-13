@@ -17,6 +17,8 @@ class Subscription extends Model
         'status',
         'amount',
         'expiry_notification_sent_at',
+        'balance_reminder_sent_at',
+        'created_by_user_id',
     ];
 
     protected function casts(): array
@@ -24,8 +26,9 @@ class Subscription extends Model
         return [
             'start_date' => 'date',
             'end_date' => 'date',
-            'amount' => 'decimal:2',
+            'amount' => 'decimal:0',
             'expiry_notification_sent_at' => 'datetime',
+            'balance_reminder_sent_at' => 'datetime',
         ];
     }
 
@@ -43,4 +46,8 @@ class Subscription extends Model
     {
         return $this->hasMany(Receipt::class);
     }
+    public function createdBy()
+{
+    return $this->belongsTo(User::class, 'created_by_user_id');
+}
 }
