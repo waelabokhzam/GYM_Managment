@@ -3,21 +3,23 @@
 namespace App\Notifications;
 
 use App\Models\Subscription;
+use App\Notifications\Channels\FcmChannel;
+use App\Notifications\Concerns\SendsToMobile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 class SubscriptionBalanceReminderNotification extends Notification
 {
-    use Queueable;
+    use Queueable, SendsToMobile;
 
     public function __construct(
         public Subscription $subscription,
         public float $remainingAmount
     ) {}
 
-    public function via(object $notifiable): array
+     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', FcmChannel::class];
     }
 
     public function toArray(object $notifiable): array

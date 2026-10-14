@@ -2,12 +2,13 @@
 namespace App\Notifications;
 
 use App\Models\Subscription;
+use App\Notifications\Concerns\SendsToMobile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 class SubscriptionExpiringNotification extends Notification
 {
-    use Queueable;
+    use Queueable , SendsToMobile;
 
     public function __construct(
         public Subscription $subscription

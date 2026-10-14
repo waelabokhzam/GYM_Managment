@@ -61,7 +61,7 @@ class SubscriptionService
             // تحميل اللاعب وحسابه
             $subscription->load('player.user');
 
-            // إعادة الاشتراك ليتم استخدامه بعد نجاح المعاملة
+            // إعادة الاشتراك ليتم است خدامه بعد نجاح المعاملة
             return $subscription;
         });
 

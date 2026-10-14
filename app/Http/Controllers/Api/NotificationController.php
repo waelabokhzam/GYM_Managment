@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\SubscriptionBalanceReminderNotification;
 use App\Notifications\SubscriptionCreatedNotification;
 use App\Notifications\SubscriptionExpiringNotification;
 use Illuminate\Http\JsonResponse;
@@ -11,13 +11,10 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationController extends Controller
 {
-    /**
-     * الإشعارات يلي بتنعرض بالموبايل بس.
-     * الباقي (Game, TimeSlot...) للداشبورد.
-     */
     private const MOBILE_TYPES = [
         SubscriptionCreatedNotification::class,
         SubscriptionExpiringNotification::class,
+        SubscriptionBalanceReminderNotification::class,
     ];
 
     public function index(Request $request): JsonResponse
