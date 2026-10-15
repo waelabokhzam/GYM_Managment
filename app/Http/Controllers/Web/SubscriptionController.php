@@ -15,15 +15,15 @@ class SubscriptionController extends Controller
         private SubscriptionService $service
     ) {}
 
-    public function index()
+public function index()
 {
     Gate::authorize('viewAny', Subscription::class);
 
-    $query = Subscription::query()
-        ->with('player.user')
-        ->latest();
-
     $user = request()->user();
+
+    $query = Subscription::query()
+        ->with(['player.user', 'trainer.user'])
+        ->latest();
 
     /*
     |--------------------------------------------------------------------------
@@ -36,10 +36,36 @@ class SubscriptionController extends Controller
         });
     }
 
-    $subscriptions = $query->paginate(10);
+    /*
+    |--------------------------------------------------------------------------
+    | البحث باسم اللاعب أو رقمه
+    |--------------------------------------------------------------------------
+    */
+    $search = trim(request()->input('search', ''));
+
+    if ($search !== '') {
+        $query->whereHas('player', function ($q) use ($search) {
+            $q->where(function ($subQuery) use ($search) {
+                $subQuery->whereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('fullname', 'like', "%{$search}%");
+                })
+                ->orWhere('unique_number', 'like', "%{$search}%");
+            });
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | النتائج مع الاحتفاظ بقيمة البحث عند التنقل بين الصفحات
+    |--------------------------------------------------------------------------
+    */
+    $subscriptions = $query
+        ->paginate(10)
+        ->withQueryString();
 
     return view('subscriptions.index', compact('subscriptions'));
 }
+
 
     public function create()
    {

@@ -173,14 +173,14 @@
                     الرئيسية
                 </div>
 
-                @can('')
+                @if(auth()->user()->hasRole('admin'))
                     <a
                         href="{{ route('dashboard') }}"
                         class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition {{ request()->routeIs('dashboard') ? 'bg-[#D46417] text-white shadow-lg shadow-[#D46417]/20' : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]' }}">
                         <i class="fa-solid fa-chart-line w-5 text-center"></i>
                         <span>لوحة التحكم</span>
                     </a>
-                @endcan
+                @endif
 
                 <div class="mb-2 mt-6 px-3 text-[10px] font-bold text-[var(--color-text-muted)]">
                     النادي
