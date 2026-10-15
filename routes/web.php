@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\NotificationController;
 use App\Http\Controllers\Web\PlayerController;
 use App\Http\Controllers\Web\ReceiptController;
 use App\Http\Controllers\Web\RoleController;
+use App\Http\Controllers\Web\SocialLinkController;
 use App\Http\Controllers\Web\SubscriptionController;
 use App\Http\Controllers\Web\TimeSlotController;
 use App\Http\Controllers\Web\TrainerController;
@@ -126,5 +127,10 @@ Route::middleware('auth')->group(function () {
         [AttendanceController::class, 'checkout']
     )
         ->name('attendances.checkout');
+
+
+Route::resource('social-links', SocialLinkController::class)
+    ->except(['show', 'create', 'edit'])
+    ->middleware('permission:social_links.manage');
 
     });

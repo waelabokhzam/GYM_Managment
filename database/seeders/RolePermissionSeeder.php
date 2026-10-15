@@ -115,6 +115,9 @@ class RolePermissionSeeder extends Seeder
             //Feedback
             'feedback.view',
             'feedback.manage',
+
+            // Social Links
+'social_links.manage',
         ];
 
         /*

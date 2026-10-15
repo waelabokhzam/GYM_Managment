@@ -1,7 +1,9 @@
 <?php
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DeviceTokenController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\NutritionProgramController;
 use App\Http\Controllers\Api\PlayerController;
 use App\Http\Controllers\Api\ScheduleController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\Api\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlayerActivityController;
 use App\Http\Controllers\Api\PrivatePlayersController;
+use App\Http\Controllers\Api\SocialLinkController;
 use App\Http\Controllers\Api\TrainingProgramController;
 
 // مسار تسجيل الدخول (مفتوح)
@@ -42,5 +45,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/feedbacks', [FeedbackController::class, 'store']);
 
     Route::get('/games', [GameController::class, 'index']);
+
+        Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+
+Route::post('/device-tokens', [DeviceTokenController::class, 'store']);
+Route::delete('/device-tokens', [DeviceTokenController::class, 'destroy']);
+
+Route::get('/social-links', [SocialLinkController::class, 'index']);
     });
 
